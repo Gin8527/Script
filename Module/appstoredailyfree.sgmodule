@@ -1,8 +1,0 @@
-#!name=每日限免
-
-
-[Script]
-每日限免 = type=generic,timeout=5,script-path=https://raw.githubusercontent.com/Gin8527/Script/main/JS/appstore-dailyfree.js
-
-[Panel]
-每日限免 = script-name=每日限免,update-interval=5184000 //更新间隔，单位s
