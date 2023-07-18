@@ -59,7 +59,7 @@ function handleResponse(body, requestHeaders) {
     console.log('未知的通知函数');
   }
 
-  $done(applist);
+  $done();
 }
 
 function parseAppList(html) {
