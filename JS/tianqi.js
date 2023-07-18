@@ -1,4 +1,4 @@
-const params = getParams($argument);
+const params = getParams(param);
 const cityId = params.cityId || "101210411";
 const apiUrl = `http://t.weather.sojson.com/api/weather/city/${cityId}`;
 
