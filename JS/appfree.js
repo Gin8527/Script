@@ -46,7 +46,7 @@ function handleResponse(body, requestHeaders) {
   for (let i = 0; i < freeAppList.length && i < appCount; i++) {
     const app = freeAppList[i];
     const description = truncateDescription(app.description, 30);
-    notificationContent += `🆓${app.name}｜原价￥${app.originalPrice}\n`;
+    notificationContent += `🆓${app.name}｜原价￥${app.originalPrice}\nApp Store 链接：${app.appStoreLink}\n`;
   }
 
   if (typeof $notify !== 'undefined') {
@@ -63,7 +63,7 @@ function handleResponse(body, requestHeaders) {
 }
 
 function parseAppList(html) {
-  const regex = /<div[^>]+class="column[^"]*"[^>]*>[\s\S]*?<strong[^>]+class="title[^"]*"[^>]*>(.*?)<\/strong>[\s\S]*?<b[^>]*>(.*?)<\/b>[\s\S]*?<div[^>]+class="price-original[^"]*"[^>]*>[^<]*<del[^>]*>(.*?)<\/del>[\s\S]*?<p[^>]+class="intro[^"]*"[^>]*>([\s\S]*?)<\/p>/g;
+  const regex = /<div[^>]+class="column[^"]*"[^>]*>[\s\S]*?<strong[^>]+class="title[^"]*"[^>]*>(.*?)<\/strong>[\s\S]*?<b[^>]*>(.*?)<\/b>[\s\S]*?<div[^>]+class="price-original[^"]*"[^>]*>[^<]*<del[^>]*>(.*?)<\/del>[\s\S]*?<p[^>]+class="intro[^"]*"[^>]*>([\s\S]*?)<\/p>[\s\S]*?<a[^>]+class="download"[^>]+href="(.*?)"[^>]*>/g;
   const appList = [];
   let match;
   while ((match = regex.exec(html)) !== null) {
@@ -71,11 +71,13 @@ function parseAppList(html) {
     const price = match[2];
     const originalPrice = parseFloat(match[3]).toFixed(1);
     const description = match[4].replace(/<.*?>/g, '').replace(/\n+/g, ' ').trim();
+    const appStoreLink = match[5];
     appList.push({
       name: name,
       price: price,
       originalPrice: originalPrice,
       description: description,
+      appStoreLink: appStoreLink
     });
   }
   return appList;
