@@ -9,11 +9,10 @@ $httpClient.get(url, function(error, response, data) {
     if (result && result.data && result.data.length > 0) {
       const hotNews = result.data.map((item, index) => {
         const title = item.title;
-        const newsUrl = `https://www.toutiao.com${item.source_url}`;
-        console.log(`[${index + 1}] ${title} - ${newsUrl}`);
-        return `[${index + 1}] <a href="${newsUrl}">${title}</a>`;
+        console.log(`[${index + 1}] ${title}`);
+        return `[${index + 1}] ${title}`;
       });
-      const notificationBody = hotNews.join("<br>");
+      const notificationBody = hotNews.join("\n");
       $notification.post("今日头条热榜", "", notificationBody);
       $done();
     } else {
@@ -22,4 +21,5 @@ $httpClient.get(url, function(error, response, data) {
     }
   }
 });
+
 
