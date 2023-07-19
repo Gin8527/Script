@@ -28,7 +28,6 @@ $httpClient.get(CAIYUN_API_URL, (error, response, body) => {
     const location = locationData.result.address;
 
     const hourlyWeather = weatherData.result.hourly;
-    const hourlyWeatherSummary = hourlyWeather.description;
     const hourlyWeatherForecast = hourlyWeather.skycon.slice(0, 5);
 
     let weatherForecast = `当前位置: ${location}\n当前温度: ${temperature}℃\n降雨概率: ${precipitation}%\n未来5小时天气预报:`;
