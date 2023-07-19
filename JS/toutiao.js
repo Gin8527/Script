@@ -9,7 +9,7 @@ $httpClient.get(url, function(error, response, data) {
     if (result && result.data && result.data.length > 0) {
       const hotNews = result.data.map((item, index) => {
         const title = item.title;
-        const newsUrl = item.source_url;
+        const newsUrl = `https://www.toutiao.com${item.source_url}`;
         console.log(`[${index + 1}] ${title} - ${newsUrl}`);
         return `[${index + 1}] <a href="${newsUrl}">${title}</a>`;
       });
@@ -22,3 +22,4 @@ $httpClient.get(url, function(error, response, data) {
     }
   }
 });
+
