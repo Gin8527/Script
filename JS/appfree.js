@@ -1,5 +1,5 @@
 const CAIYUN_API_KEY = 'fmqppLgQRcTNFjpB'; // 替换为你的彩云天气 API 密钥
-const TENCENT_MAP_API_KEY = 'y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'; // 替换为你的腾讯地图 API 密钥
+const TENCENT_MAP_API_KEY = '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'; // 替换为你的腾讯地图 API 密钥
 const CITY_CODE = '330200'; // 替换为你的城市代码
 
 const CAIYUN_API_URL = `https://api.caiyunapp.com/v2.5/${CAIYUN_API_KEY}/${TENCENT_MAP_API_KEY}/${CITY_CODE}/weather.json`;
