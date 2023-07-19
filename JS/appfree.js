@@ -7,7 +7,7 @@ const TENCENT_MAP_API_URL = `https://apis.map.qq.com/ws/geocoder/v1/?key=${TENCE
 
 $httpClient.get(CAIYUN_API_URL, (error, response, body) => {
   if (error) {
-    console.log('获取天气信息失败:', error);
+    $notification.post('获取天气信息失败', error, '');
     $done();
     return;
   }
@@ -19,7 +19,7 @@ $httpClient.get(CAIYUN_API_URL, (error, response, body) => {
 
   $httpClient.get(TENCENT_MAP_API_URL, (error, response, body) => {
     if (error) {
-      console.log('获取地理位置信息失败:', error);
+      $notification.post('获取地理位置信息失败', error, '');
       $done();
       return;
     }
@@ -37,6 +37,11 @@ $httpClient.get(CAIYUN_API_URL, (error, response, body) => {
       const hour = (index + 1) * 1;
       weatherForecast += `\n${hour}小时后: ${forecast.value}`;
     });
+
+    $notification.post('实时天气情况', '', weatherForecast);
+    $done();
+  });
+});
 
     $notification.post('实时天气情况', '', weatherForecast);
     $done();
