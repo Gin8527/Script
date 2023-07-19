@@ -1,103 +1,57 @@
-const url = "https://gofans.cn/limited/ios";
-const headers = {
-  "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
-};
-const LOG_URL = "http://localhost:3000"; // 替换为你本地日志服务器的地址
+const CAIYUN_API_KEY = 'fmqppLgQRcTNFjpB'; // 替换为你的彩云天气 API 密钥
+const TENCENT_MAP_API_KEY = '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'; // 替换为你的腾讯地图 API 密钥
+const CITY_CODE = '330200'; // 替换为你的城市代码
 
-if (typeof $task !== 'undefined') {
-  $task.fetch({ url: url, headers: headers }).then(response => {
-    handleResponse(response.body);
-  }, reason => {
-    sendLog('获取应用信息失败: ' + reason.error);
+// 浙江省城市代码
+// 杭州市：330100
+// 宁波市：330200
+// 温州市：330300
+// 嘉兴市：330400
+// 湖州市：330500
+// 绍兴市：330600
+// 金华市：330700
+// 衢州市：330800
+// 舟山市：330900
+// 台州市：331000
+// 丽水市：331100
+
+const CAIYUN_API_URL = `https://api.caiyunapp.com/v2.5/${CAIYUN_API_KEY}/${TENCENT_MAP_API_KEY}/${CITY_CODE}/weather.json`;
+const TENCENT_MAP_API_URL = `https://apis.map.qq.com/ws/geocoder/v1/?key=${TENCENT_MAP_API_KEY}&location=${CITY_CODE}`;
+
+$httpClient.get(CAIYUN_API_URL, (error, response, body) => {
+  if (error) {
+    console.log('获取天气信息失败:', error);
+    $done();
+    return;
+  }
+
+  const weatherData = JSON.parse(body);
+  const currentWeather = weatherData.result.realtime;
+  const temperature = currentWeather.temperature;
+  const precipitation = currentWeather.precipitation;
+
+  $httpClient.get(TENCENT_MAP_API_URL, (error, response, body) => {
+    if (error) {
+      console.log('获取地理位置信息失败:', error);
+      $done();
+      return;
+    }
+
+    const locationData = JSON.parse(body);
+    const location = locationData.result.address;
+
+    const hourlyWeather = weatherData.result.hourly;
+    const hourlyWeatherSummary = hourlyWeather.description;
+    const hourlyWeatherForecast = hourlyWeather.skycon.slice(0, 5);
+
+    let weatherForecast = `当前位置: ${location}\n当前温度: ${temperature}℃\n降雨概率: ${precipitation}%\n未来5小时天气预报:`;
+
+    hourlyWeatherForecast.forEach((forecast, index) => {
+      const hour = (index + 1) * 1;
+      weatherForecast += `\n${hour}小时后: ${forecast.value}`;
+    });
+
+    console.log(weatherForecast);
     $done();
   });
-} else if (typeof $httpClient !== 'undefined' && typeof $notification !== 'undefined') {
-  $httpClient.get({ url: url, headers: headers }, function (error, response, body) {
-    if (error) {
-      sendLog('获取应用信息失败: ' + error);
-      $done();
-      return;
-    }
-    handleResponse(body);
-  });
-} else if (typeof $request !== 'undefined' && typeof $notify !== 'undefined') {
-  $httpClient.get({ url: url, headers: headers }, function (error, response, body) {
-    if (error) {
-      sendLog('获取应用信息失败: ' + error);
-      $done();
-      return;
-    }
-    handleResponse(body, $request.headers);
-  });
-} else {
-  sendLog('未知的脚本运行环境');
-  $done();
-}
-
-function handleResponse(body, requestHeaders) {
-  const appList = parseAppList(body);
-  const freeAppList = appList.filter(app => app.price === "Free");
-
-  let notificationContent = '';
-  const appCount = requestHeaders ? parseInt(requestHeaders['appCount']) || 8 : 8;
-  for (let i = 0; i < freeAppList.length && i < appCount; i++) {
-    const app = freeAppList[i];
-    const description = truncateDescription(app.description, 30);
-    notificationContent += `🆓${app.name}｜原价￥${app.originalPrice}\nApp Store 链接：${app.appStoreLink}\n`;
-  }
-
-  if (typeof $notify !== 'undefined') {
-    $notify("AppStore限免APP", '', notificationContent);
-  } else if (typeof $notification !== 'undefined') {
-    $notification.post("AppStore限免APP", '', notificationContent);
-  } else {
-    sendLog('未知的通知函数');
-  }
-
-  sendLog(notificationContent); // 发送日志内容
-
-  $done();
-}
-
-function parseAppList(html) {
-  const regex = /<div[^>]+class="column[^"]*"[^>]*>[\s\S]*?<strong[^>]+class="title[^"]*"[^>]*>(.*?)<\/strong>[\s\S]*?<b[^>]*>(.*?)<\/b>[\s\S]*?<div[^>]+class="price-original[^"]*"[^>]*>[^<]*<del[^>]*>(.*?)<\/del>[\s\S]*?<p[^>]+class="intro[^"]*"[^>]*>([\s\S]*?)<\/p>[\s\S]*?<a[^>]+class="download"[^>]+href="(.*?)"[^>]*>/g;
-  const appList = [];
-  let match;
-  while ((match = regex.exec(html)) !== null) {
-    const name = match[1];
-    const price = match[2];
-    const originalPrice = parseFloat(match[3]).toFixed(1);
-    const description = match[4].replace(/<.*?>/g, '').replace(/\n+/g, ' ').trim();
-    const appStoreLink = match[5];
-    appList.push({
-      name: name,
-      price: price,
-      originalPrice: originalPrice,
-      description: description,
-      appStoreLink: appStoreLink
-    });
-  }
-  return appList;
-}
-
-function truncateDescription(description, maxLength) {
-  if (description.length > maxLength) {
-    return description.substring(0, maxLength) + '…';
-  }
-  return description;
-}
-
-function sendLog(message) {
-  const log = { message: message };
-  $httpClient.post({
-    url: LOG_URL,
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(log)
-  }, function(error, response, body) {
-    if (error) {
-      console.log('发送日志失败:', error);
-    } else {
-      console.log('日志已发送:', message);
-    }
-  });
-}
+});
