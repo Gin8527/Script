@@ -1,3 +1,6 @@
+# 定义9点上班、18点下班、工作时间提醒
+# By Gin8527，2023/07/20
+
 const workStartTime = 9; // 上班时间，单位：小时
 const workEndTime = 18; // 下班时间，单位：小时
 
