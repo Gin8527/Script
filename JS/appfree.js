@@ -10,7 +10,7 @@ if (hour >= workStartTime && hour < workEndTime) {
   const remainingHours = workEndTime - hour - 1;
   const remainingMinutes = 60 - minute - 1;
   const remainingSeconds = 60 - second;
-  const currentTime = now.format("hh:mm:ss");
+  const currentTime = formatDate(now, "hh:mm:ss");
 
   const message = `现在是北京时间 ${currentTime}\n距离下班还有 ${remainingHours} 小时 ${remainingMinutes} 分钟 ${remainingSeconds} 秒 😊`;
   $notification.post('下班倒计时', '', message);
@@ -27,24 +27,24 @@ if (hour >= workStartTime && hour < workEndTime) {
 
 $done();
 
-// Date 原型对象的 format 函数
-Date.prototype.format = function(fmt) {
-  var date = {
-    "M+": this.getMonth() + 1,
-    "d+": this.getDate(),
-    "h+": this.getHours(),
-    "m+": this.getMinutes(),
-    "s+": this.getSeconds(),
-    "q+": Math.floor((this.getMonth() + 3) / 3),
-    "S": this.getMilliseconds()
+// 自定义日期格式化函数
+function formatDate(date, fmt) {
+  var o = {
+    "M+": date.getMonth() + 1,
+    "d+": date.getDate(),
+    "h+": date.getHours(),
+    "m+": date.getMinutes(),
+    "s+": date.getSeconds(),
+    "q+": Math.floor((date.getMonth() + 3) / 3),
+    "S": date.getMilliseconds()
   };
-  if (/(y+)/i.test(fmt)) {
-    fmt = fmt.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+  if (/(y+)/.test(fmt)) {
+    fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
   }
-  for (var k in date) {
+  for (var k in o) {
     if (new RegExp("(" + k + ")").test(fmt)) {
-      fmt = fmt.replace(RegExp.$1, RegExp.$1.length == 1 ? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
+      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     }
   }
   return fmt;
-};
+}
