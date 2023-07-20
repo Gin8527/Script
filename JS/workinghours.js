@@ -1,5 +1,5 @@
 # 定义9点上班、18点下班、工作时间提醒
-# By Gin8527，2023.7.20
+# By Gin8527，2023/07/20
 
 const workStartTime = 9; // 上班时间，单位：小时
 const workEndTime = 18; // 下班时间，单位：小时
@@ -15,7 +15,7 @@ if (hour >= workStartTime && hour < workEndTime) {
   const remainingSeconds = 60 - second;
   const currentTime = formatDate(now, "hh:mm:ss");
 
-  const message = `现在是北京时间 ${currentTime}\n距离下班还有 ${remainingHours} 小时 ${remainingMinutes} 分钟 ${remainingSeconds} 秒 😊`;
+  const message = 现在是北京时间 ${currentTime}\n距离下班还有 ${remainingHours} 小时 ${remainingMinutes} 分钟 ${remainingSeconds} 秒 😊;
   $notification.post('下班倒计时', '', message);
 } else if (hour === workStartTime && minute === 0 && second === 0) {
   const currentTime = now.format("hh:mm:ss");
