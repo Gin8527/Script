@@ -1,0 +1,7 @@
+#!name=iOS Cookies Module
+#!desc=iOS Cookies 模块配置
+[Script]
+http-request ^https?:\/\/app\.bilibili\.com\/x\/resource\/domain\?  script-path=https://raw.githubusercontent.com/ClydeTime/Quantumult/main/Script/Task/BiliBili.js, tag=bilibilicookie1
+http-request ^https:\/\/(www|live)\.bilibili\.com\/?.? script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/bilibili/bilibili.cookie.js, tag=bilibilicookie2
+http-request ^https?:\/\/m.bilibili.com/$, script-path=https://raw.githubusercontent.com/ClydeTime/Quantumult/main/Script/Task/BiliBili.js, tag=bilibilicookie3
+http-request ^https:\/\/auth.aliyundrive.com\/v2\/account\/token script-path=https://raw.githubusercontent.com/lowking/Scripts/master/ali/aliYunPanCheckIn.js
