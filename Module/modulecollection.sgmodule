@@ -1,22 +1,31 @@
 #!name=自用模块合集
-#!desc=B站画质、京东比价、扫描全能王解锁、Wallcraft解锁
+#!desc=B站画质、京东比价、扫描全能王解锁、Wallcraft解锁、Sub-Store Cache
 
 [Script]
-#bilibili解锁画质
-#hostname= %APPEND% app.bilibili.com
+
+# bilibili解锁画质
+# hostname = %APPEND% app.bilibili.com
 Bili1080P=type=http-response,pattern=^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/myinfo\?,requires-body=1,script-path=https://raw.githubusercontent.com/deezertidal/private/master/js-backup/Script/bilibili_json.js
 
-#扫描全能王解锁会员
+# 扫描全能王解锁会员
 # hostname = *.camscanner.com, *.intsig.net
 扫描全能王=type=http-response,pattern=^https?:\/\/.*\.(intsig\.net|camscanner\.com),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/CamScanner.js
 
-#Wallcraft解锁会员
+# Wallcraft解锁会员
 # hostname = *.wallpaperscraft.com
 WallCraft = type=http-response,pattern=^https?:\/\/.*\.(intsig\.net|camscanner\.com),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/CamScanner.js
 
-#京东比价
-#hostname = %APPEND% api.m.jd.com
+# 京东比价
+# hostname = %APPEND% api.m.jd.com
 京东比价 = type=http-response,requires-body=1,pattern=^https?://api\.m\.jd\.com/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig),script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_price.js
+
+# Sub-Store Cache
+# 模块链接：https://raw.githubusercontent.com/Keywos/rule/main/Sub-Store/Sub-Store.sgmodule
+# hostname = %APPEND% sub.store
+# 主程序
+Sub-Store Cache = type=http-request,pattern=^https?:\/\/sub\.store,requires-body=true,timeout=120,max-size=131072,ability=http-client-policy,script-update-interval=-1,script-path=https://raw.githubusercontent.com/Keywos/rule/main/Sub-Store/sub-store.min-nolog.js
+# 定时任务
+Sub-Store Sync = type=cron,cronexp=0 0-23/3 * * *,wake-system=1,timeout=120,script-path=https://raw.githubusercontent.com/Keywos/rule/main/Sub-Store/cron-sync-artifacts.min.js
 
 [MITM]
 hostname= %APPEND% app.bilibili.com, *.camscanner.com, *.intsig.net, api.picsart.c*, api.meiease.c*, *.wallpaperscraft.com, api.m.jd.com
