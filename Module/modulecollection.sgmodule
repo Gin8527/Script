@@ -1,0 +1,16 @@
+#!name=自用模块合集
+#!desc=有效模块收集
+[Script]
+#bilibili解锁画质
+Bili1080P=type=http-response,pattern=^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/myinfo\?,requires-body=1,script-path=https://raw.githubusercontent.com/deezertidal/private/master/js-backup/Script/bilibili_json.js
+#扫描全能王解锁会员
+扫描全能王=type=http-response,pattern=https:\/\/(api|api-cs)\.intsig\.net\/purchase\/cs\/query_property\?,requires-body=1, script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/CamScanner.js
+#Piscart解锁会员
+Picsart=type=http-response,pattern=https:\/\/api\.(picsart|meiease)\.c(n|om)\/users\/show\/me\.json,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/PicsArt.js
+#Wallcraft解锁会员
+WallCraft=type=http-response,pattern=^https?:\/\/billing-ios\.wallpaperscraft\.com\/verify_receipt\/remove_ads$,script-path=https://raw.githubusercontent.com/yqc007/QuantumultX/master/WallCraftFProCrack.js,requires-body=1
+#京东比价
+京东比价 = type=http-response,requires-body=1,pattern=^https?://api\.m\.jd\.com/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig),script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_price.js
+
+[MITM]
+hostname= %APPEND% app.bilibili.com, *.camscanner.com,*.intsig.net,api.picsart.c*, api.meiease.c*,*.wallpaperscraft.com,api.m.jd.com
