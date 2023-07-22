@@ -1,14 +1,23 @@
 #!name=iOS Cookies Module
 #!desc=iOS Cookies 模块配置
 [Script]
+# bilibili cookie
 http-request ^https?:\/\/app\.bilibili\.com\/x\/resource\/domain\?  script-path=https://raw.githubusercontent.com/ClydeTime/Quantumult/main/Script/Task/BiliBili.js, tag=bilibilicookie1
 http-request ^https:\/\/(www|live)\.bilibili\.com\/?.? script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/bilibili/bilibili.cookie.js, tag=bilibilicookie2
 http-request ^https?:\/\/m.bilibili.com/$ script-path=https://raw.githubusercontent.com/ClydeTime/Quantumult/main/Script/Task/BiliBili.js, tag=bilibilicookie3
-http-request ^https:\/\/auth.aliyundrive.com\/v2\/account\/token script-path=https://raw.githubusercontent.com/lowking/Scripts/master/ali/aliYunPanCheckIn.js，tag=aliyunCookie
+
+# 阿里云盘cookie 转自https://github.com/zqzess/rule_for_quantumultX/blob/master/js/Mine/aDriveCheckIn/aDriveCheckIn.module
+阿里网盘token获取 = type=http-request,script-path=https://raw.githubusercontent.com/zqzess/rule_for_quantumultX/master/js/Mine/aDriveCheckIn/aDriveCheckIn.js,pattern=^https:\/\/auth\.aliyundrive\.com\/v2\/account\/token,max-size=0,requires-body=true,timeout=10,script-update-interval=0,enable=true
+
+# bing积分cookie
 http-request ^https:\/\/rewards\.bing\.com script-path=https://raw.githubusercontent.com/lowking/Scripts/master/bing/bingPoint.js, tag=bingCookie
+
+#百度贴吧cookie
 http-request ^https?:\/\/(c\.tieba\.baidu\.com|180\.97\.\d+\.\d+)\/c\/s\/login script-path=https://raw.githubusercontent.com/chxm1023/Task/main/TieBa/TieBa_signin.js, tag=TiebaCookie1
 http-request ^https?:\/\/c\.tieba\.baidu\.com\/c\/s\/channelIconConfig script-path=https://raw.githubusercontent.com/chxm1023/Task/main/TieBa/TieBa_signin.js, tag=TiebaCookie2
 http-request ^https?:\/\/tiebac\.baidu\.com\/c\/u\/follow\/getFoldedMessageUserInfo script-path=https://raw.githubusercontent.com/chxm1023/Task/main/TieBa/TieBa_signin.js, tag=TiebaCookie3
+
+#京东cookie
 http-request ^https:\/\/(api\.m|me-api)\.jd\.com\/(client\.action\?functionId=signBean|user_new\/info\/GetJDUserInfoUnion\?) script-path=https://raw.githubusercontent.com/chxm1023/Task/main/JD/JD_DailyBonus.js, tag=JDCookie
 
 [MITM]
