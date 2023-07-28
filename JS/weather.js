@@ -1,6 +1,5 @@
 const apiUrl = "http://t.weather.sojson.com/api/weather/city/101210411";
-
-const cityId = getCityId($request.url);
+const cityId = $surge.selectGroupDetails().cityId;
 if (cityId) {
   const apiUrlWithCityId = `${apiUrl}${cityId}`;
   $httpClient.get(apiUrlWithCityId, function (error, response, data) {
