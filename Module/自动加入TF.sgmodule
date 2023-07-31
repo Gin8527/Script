@@ -1,0 +1,23 @@
+#!name=自动加入TF
+#!desc=自动加入Testflight
+
+/*
+🥳脚本功能: 自动加入 TestFlight
+🎯重写脚本:
+[rewrite_local]
+^https:\/\/testflight\.apple\.com\/v3\/accounts\/.*\/ru\/(.*)$ url script-request-header https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/tf_appIds.js
+[mitm]
+hostname = testflight.apple.com
+⏰定时任务:
+[task_local]
+30 10,20 * * * https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/TestFlight.js, tag=TestFlight自动加入, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/testflight.png, enabled=true
+📦BoxJs地址:
+https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/mcdasheng.boxjs.json
+*/
+
+
+[Script]
+自动加入TF=type=http-response,pattern=^https:\/\/testflight\.apple\.com\/v3\/accounts\/.*\/ru\/(.*)$,requires-body=1,script-path=https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/tf_appIds.js
+
+[MITM]
+hostname = testflight.apple.com
