@@ -1,9 +1,0 @@
-#!name=自动加入TF
-#!desc=自动加入Testflight
-
-
-[Script]
-自动加入TF=type=http-response,pattern=^https:\/\/testflight\.apple\.com\/v3\/accounts\/.*\/ru\/(.*)$,requires-body=1,script-path=https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/tf_appIds.js
-
-[MITM]
-hostname = testflight.apple.com
