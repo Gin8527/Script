@@ -13,9 +13,8 @@ requires-body=1,type=http-response,pattern=https:\/\/auth.(aliyundrive|alipan).c
 
 # 京东Cookie 登录网址：https://bean.m.jd.com/bean/signIndex.action
 ; hostname = ms.jr.jd.com, me-api.jd.com, api.m.jd.com
-; ^https:\/\/home\.m\.jd\.com\/myJd\/(newhome|home)\.action url script-request-header https://raw.githubusercontent.com/fmz200/wool_scripts/main/jingdong/JD_revise_cookie.js
 ^https:\/\/api\.m\.jd\.com\/client\.action url script-request-header https://raw.githubusercontent.com/fmz200/wool_scripts/main/jingdong/JD_revise_cookie.js
-; ^https:\/\/(api\.m|me-api)\.jd\.com\/(client\.action\?functionId=signBean|user_new\/info\/GetJDUserInfoUnion\?) url script-request-header https://raw.githubusercontent.com/chxm1023/Task/main/JD/JD_DailyBonus.js
+
 
 # 百度贴吧每日自动签到获取Cookie
 ; hostname = c.tieba.baidu.com
