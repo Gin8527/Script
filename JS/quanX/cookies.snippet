@@ -2,13 +2,13 @@
 # 阿里网盘、京东、百度贴吧、bilibili、bing积分
 
 
-hostname = auth.alipan.com, ms.jr.jd.com, me-api.jd.com, api.m.jd.com, c.tieba.baidu.com, *.bilibili.com, rewards.bing.com
+hostname = %APPEND% auth.alipan.com, ms.jr.jd.com, me-api.jd.com, api.m.jd.com, c.tieba.baidu.com, *.bilibili.com, rewards.bing.com
 
 
 #************************************#
 //远程重写
 # 阿里网盘签到获取Cookie
-; hostname = auth.alipan.com
+; hostname = %APPEND% auth.alipan.com
 requires-body=1,type=http-response,pattern=https:\/\/auth.(aliyundrive|alipan).com\/v2\/account\/token,script-path=https://raw.githubusercontent.com/lowking/Scripts/master/ali/aliYunPanCheckIn.js
 
 # 京东Cookie 登录网址：https://bean.m.jd.com/bean/signIndex.action
