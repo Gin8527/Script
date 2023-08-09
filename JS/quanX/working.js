@@ -13,21 +13,25 @@ if (hour >= workStartTime && hour < workEndTime) {
   const currentTime = formatDate(now, "hh:mm:ss");
 
   const message = `现在是北京时间 ${currentTime}\n距离下班还有 ${remainingHours} 小时 ${remainingMinutes} 分钟 ${remainingSeconds} 秒 😊`;
-  $notify.post('下班倒计时', '', message);
+  console.log(message);
+  // 请根据 Quantumult X 的通知设置来发送通知
 } else if (hour === workStartTime && minute === 0 && second === 0) {
   const currentTime = formatDate(now, "hh:mm:ss");
-  $notify.post('上班提醒', '', `现在是北京时间 ${currentTime}\n请开始准备工作啦 😊`);
+  const message = `现在是北京时间 ${currentTime}\n请开始准备工作啦 😊`;
+  console.log(message);
+  // 请根据 Quantumult X 的通知设置来发送通知
 } else if (hour === workEndTime && minute === 0 && second === 0) {
   const currentTime = formatDate(now, "hh:mm:ss");
-  $notify.post('下班提醒', '', `现在是北京时间 ${currentTime}\n辛苦一天，可以放松一下了 😊`);
+  const message = `现在是北京时间 ${currentTime}\n辛苦一天，可以放松一下了 😊`;
+  console.log(message);
+  // 请根据 Quantumult X 的通知设置来发送通知
 } else {
   const currentTime = formatDate(now, "hh:mm:ss");
-  $notify.post('工作时间提醒', '', `现在是北京时间 ${currentTime}\n放心玩耍吧 😊`);
+  const message = `现在是北京时间 ${currentTime}\n放心玩耍吧 😊`;
+  console.log(message);
+  // 请根据 Quantumult X 的通知设置来发送通知
 }
 
-$done();
-
-// 自定义日期格式化函数
 function formatDate(date, fmt) {
   var o = {
     "M+": date.getMonth() + 1,
