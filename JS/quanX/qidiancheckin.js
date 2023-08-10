@@ -6,23 +6,35 @@
 
 const url = "https://magev6.if.qidian.com/argus/api/v2/checkin/checkin";
 const method = "POST";
-const headers = {"QDH": "6H2kDVrikf/Vimr6AjAZ1bNA/kBWIr2v7or351N+LSkHxTngvA0o5OFuoDmWDJjkTF+p/bUttP46FKemPZLnU3lMrcBjgqXlE4HAH42V3BEfBmYFGm2iVeLxrUCeDnHxQZCLjwsn0xx08bZCtF889ajCh0faAiPtC8xvr4UieQO6Ofrh+6AQ9O5EFrJ/d4jz6P21SdK96ZAcCWAdZ16tmnRQLvn4dLl/c1hKfmfCKF17HrLOKLCtUZTSnVDDMbQv9R2jjHbJYbt6LYqygW/0D8wgnYNaQiZWK37VjIh/jYpxLamzcjlI5xeF3E5o49x8J2FRuaNZ/pI="};
-const data = {"info": "abc"};
+const headers = {
+'QDH' : `6H2kDVrikf/Vimr6AjAZ1bNA/kBWIr2v7or351N+LSkHxTngvA0o5OFuoDmWDJjkTF+p/bUttP46FKemPZLnU3lMrcBjgqXlE4HAH42V3BEfBmYFGm2iVeLxrUCeDnHxQZCLjwsn0xx08bZCtF889ajCh0faAiPtC8xvr4UieQO6Ofrh+6AQ9O5EFrJ/d4jz6P21SdK96ZAcCWAdZ16tmnRQLvn4dLl/c1hKfmfCKF17HrLOKLCtUZTSnVDDMbQv9R2jjHbJYbt6LYqygW/0D8wgnYNaQiZWK37VjIh/jYpxLamzcjlI5xeF3E5o49x8J2FRuaNZ/pI=`,
+'Connection' : `keep-alive`,
+'Accept-Encoding' : `gzip, deflate, br`,
+'cecelia' : `2_936ff0d668cfab413e6a16441550a534fcbd3bb8b5d4287c5709b9153b2c3b4e88e8`,
+'abtest-gzip' : `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`,
+'borgus' : `23ba0eed59603efc300bf8102b692970`,
+'Content-Type' : `application/x-www-form-urlencoded`,
+'User-Agent' : `QDReaderAppStore/5.9.296 (iPhone; iOS 17.0; Scale/3.00)`,
+'Cookie' : `QDH=6H2kDVrikf/Vimr6AjAZ1bNA/kBWIr2v7or351N+LSkHxTngvA0o5OFuoDmWDJjkTF+p/bUttP46FKemPZLnU3lMrcBjgqXlE4HAH42V3BEfBmYFGm2iVeLxrUCeDnHxQZCLjwsn0xx08bZCtF889ajCh0faAiPtpS5pMmaCq2qGCUpQuzdJR8e+g9JWPLKV9PMkfK66TZ2Ci6XxFWyjzwu0ZPyAVfarZihrS5MVaFtI5rVlQtOOKJtmoB/mHy/Gw0oAVQp2O3Ot+ELsfYp0fqzgWOX00q3BHnctaMrZaVef591F/42mjjNObRF1JLRr8A5AmjZluSQ=; appId=12; areaId=40; bar=88; cmfuToken=N((J3Xcfs00VcWYDj2e7nBB6XAePFsOJfhI79WU-sylbmiY_nzh5nYwacfzqShSw0I79uEfb06048K5aKCYsg0lp6YcX0wijxYskR_RCgiJbfAhUdnxklN9rD4MBceP8iwgaMKhXvcyVTBPZ2dnfMs_X7aTR3-sDpKjFfZHKDY51tbcgk9JcDfS_yeOu_4Lq-jSZK7GewmcIZgoIWD-JhUbeAB54ppTXDDZBhK06E-2scQzOh-Kxz0xHuNXSeluvdeRp7XOW3bFrd_8qXtN8PcQOKzT-gl-932M0; qid=6eae3abd1ab69c5646bebecd000016017719; ywguid=854062153245; ywkey=ywIC9aoMv8mS; mode=normal`,
+'Host' : `magev6.if.qidian.com`,
+'tstamp' : `1691630023581`,
+'Accept-Language' : `zh-Hans-CN;q=1`,
+'Accept' : `application/json`,
+'QDSign' : `+rqYGkHXfne/3J3PZqxjGyAUhZvbYeyx1pBZA5qo5dKa/PxIl4O0QbGUwnzodoaDKRFG23e7s6k1FdaMneXxsWY/6f79vRzoKwPe1wbevhKJKaF+1co+mixZoKz3rbO75q3IG004maHwFJe/SiKMiPrln+RZiUFt`
+};
+const data = {};
 
 const myRequest = {
     url: url,
-    method: method, // Optional, default GET.
-    headers: headers, // Optional.
-    body: JSON.stringify(data) // Optional.
+    method: method,
+    headers: headers,
+    body: JSON.stringify(data)
 };
 
 $task.fetch(myRequest).then(response => {
-    // response.statusCode, response.headers, response.body
-    console.log(response.body);
-    $notify("Title", "Subtitle", response.body); // Success!
+    console.log(response.statusCode + "\n\n" + response.body);
     $done();
 }, reason => {
-    // reason.error
-    $notify("Title", "Subtitle", reason.error); // Error!
+    console.log(reason.error);
     $done();
 });
