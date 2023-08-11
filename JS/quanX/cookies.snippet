@@ -2,7 +2,7 @@
 # 阿里网盘、京东、百度贴吧、bilibili、bing积分、建行生活、起点
 
 
-hostname = %APPEND% auth.alipan.com, ms.jr.jd.com, me-api.jd.com, api.m.jd.com, c.tieba.baidu.com,tiebac.baidu.com, *.bilibili.com, %APPEND% rewards.bing.com, yunbusiness.ccb.com, h5.if.qidian.com
+hostname = %APPEND% auth.alipan.com, ms.jr.jd.com, me-api.jd.com, api.m.jd.com, c.tieba.baidu.com,tiebac.baidu.com, *.bilibili.com, rewards.bing.com, yunbusiness.ccb.com, h5.if.qidian.com
 
 
 #************************************#
@@ -10,12 +10,11 @@ hostname = %APPEND% auth.alipan.com, ms.jr.jd.com, me-api.jd.com, api.m.jd.com, 
 # 阿里网盘签到获取Cookie
 # 转自https://github.com/lowking/Scripts/blob/master/ali/aliYunPanCheckIn.js
 ; hostname = %APPEND% auth.alipan.com
-^https:\/\/auth.(aliyundrive|alipan).com\/v2\/account\/token url script-request-header https://raw.githubusercontent.com/lowking/Scripts/master/ali/aliYunPanCheckIn.js
+^https:\/\/auth.alipan.com\/v2\/account\/token url script-request-header https://raw.githubusercontent.com/lowking/Scripts/master/ali/aliYunPanCheckIn.js
 
 # 京东Cookie 登录网址：https://bean.m.jd.com/bean/signIndex.action
 ; hostname = ms.jr.jd.com, me-api.jd.com, api.m.jd.com
-^https:\/\/api\.m\.jd\.com\/client\.action url script-request-header https://raw.githubusercontent.com/fmz200/wool_scripts/main/jingdong/JD_revise_cookie.js
-
+^https:\/\/(api\.m|me-api)\.jd\.com\/(client\.action\?functionId=signBean|user_new\/info\/GetJDUserInfoUnion\?) url script-request-header https://raw.githubusercontent.com/chxm1023/Task/main/JD/JD_DailyBonus.js
 
 # 百度贴吧每日自动签到获取Cookie
 # 转自https://github.com/blackmatrix7/ios_rule_script/tree/master/script/tieba
@@ -31,7 +30,7 @@ hostname = %APPEND% auth.alipan.com, ms.jr.jd.com, me-api.jd.com, api.m.jd.com, 
 
 # bing积分
 # 转自https://github.com/lowking/Scripts/blob/master/bing/bingPoint.js
-; hostname = %APPEND% rewards.bing.com
+; hostname = rewards.bing.com
 ^https:\/\/rewards\.bing\.com url script-request-header https://raw.githubusercontent.com/lowking/Scripts/master/bing/bingPoint.js
 
 # 建行生活
