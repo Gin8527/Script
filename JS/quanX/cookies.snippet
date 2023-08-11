@@ -1,14 +1,23 @@
 # 获取cookies
-# 京东、bilibili、bing积分、建行生活、起点
+# 京东、百度贴吧、阿里网盘、bilibili、bing积分、建行生活、起点
 
 
-hostname = ms.jr.jd.com, me-api.jd.com, api.m.jd.com, *.bilibili.com, rewards.bing.com, yunbusiness.ccb.com, h5.if.qidian.com
+hostname = ms.jr.jd.com, me-api.jd.com,  api.m.jd.com,tiebac.baidu.com, c.tieba.baidu.com, auth.aliyundrive.com, *.bilibili.com, rewards.bing.com, yunbusiness.ccb.com, h5.if.qidian.com
 
 
 #************************************#
 # 京东Cookie 登录网址：https://bean.m.jd.com/bean/signIndex.action
 ; hostname = ms.jr.jd.com, me-api.jd.com, api.m.jd.com
 ^https:\/\/(api\.m|me-api)\.jd\.com\/(client\.action\?functionId=signBean|user_new\/info\/GetJDUserInfoUnion\?) url script-request-header https://raw.githubusercontent.com/chxm1023/Task/main/JD/JD_DailyBonus.js
+
+# 百度贴吧 cookie
+; hostname = tiebac.baidu.com, c.tieba.baidu.com
+^https?:\/\/tiebac\.baidu\.com\/c\/u\/follow\/getFoldedMessageUserInfo url script-request-header https://raw.githubusercontent.com/ClydeTime/Quantumult/main/Script/Task/TieBa.js
+^https?:\/\/c\.tieba\.baidu\.com\/c\/u\/follow\/getFoldedMessageUserInfo url script-request-header https://raw.githubusercontent.com/ClydeTime/Quantumult/main/Script/Task/TieBa.js
+
+# 阿里网盘签到获取Cookie
+; hostname = auth.aliyundrive.com
+^https:\/\/auth.aliyundrive.com\/v2\/account\/token url script-response-body https://raw.githubusercontent.com/lowking/Scripts/master/ali/aliYunPanCheckIn.js
 
  # 哔哩哔哩
 ; hostname = *.bilibili.com
@@ -29,3 +38,7 @@ hostname = ms.jr.jd.com, me-api.jd.com, api.m.jd.com, *.bilibili.com, rewards.bi
 https\:\/\/h5\.if\.qidian\.com\/argus\/api\/v1\/video\/adv\/finishWatch url script-request-body https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/qidian/qidian.cookie.js 
 https\:\/\/h5\.if\.qidian\.com\/argus\/api\/v1\/video\/adv\/mainPage url script-response-body https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/qidian/qidian.taskId.js 
 
+#获取cookie合集
+#https://raw.githubusercontent.com/ClydeTime/Quantumult/main/Task/Remote_Cookie.conf
+#https://raw.githubusercontent.com/chxm1023/Rewrite/main/HQ_Cookie.conf
+#https://raw.githubusercontent.com/fmz200/wool_scripts/main/QuantumultX/rewrite/cookies.snippet
