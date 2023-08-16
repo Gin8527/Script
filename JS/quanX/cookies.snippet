@@ -1,8 +1,8 @@
 # 获取cookies
-# 京东、百度贴吧、阿里网盘、bilibili、bing积分、建行生活、起点
+# 京东、百度贴吧、阿里网盘、bilibili、bing积分、建行生活、起点、高德地图签到
 
 
-hostname = ms.jr.jd.com, me-api.jd.com,  api.m.jd.com,tiebac.baidu.com, c.tieba.baidu.com, auth.aliyundrive.com, *.bilibili.com, rewards.bing.com, yunbusiness.ccb.com, h5.if.qidian.com
+hostname = ms.jr.jd.com, me-api.jd.com,  api.m.jd.com,tiebac.baidu.com, c.tieba.baidu.com, auth.aliyundrive.com, *.bilibili.com, rewards.bing.com, yunbusiness.ccb.com, h5.if.qidian.com, *.amap.com
 
 
 #************************************#
@@ -40,6 +40,16 @@ hostname = ms.jr.jd.com, me-api.jd.com,  api.m.jd.com,tiebac.baidu.com, c.tieba.
 ; hostname = h5.if.qidian.com
 https\:\/\/h5\.if\.qidian\.com\/argus\/api\/v1\/video\/adv\/finishWatch url script-request-body https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/qidian/qidian.cookie.js 
 https\:\/\/h5\.if\.qidian\.com\/argus\/api\/v1\/video\/adv\/mainPage url script-response-body https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/qidian/qidian.taskId.js 
+
+/*
+高德打车签到
+获取Cookie等信息方法 ，QX开重写，进入【高德地图，打车，福利中心】,如果没提醒，重新打开APP重新进入
+自动签到 地图APP/微信小程序、支付宝小程序
+*/
+; hostname = *.amap.com
+^https:\/\/m5(-zb)?\.amap\.com\/ws\/yuece\/(act|openapi)\/(activity\/current\/)?query url script-response-body https://raw.githubusercontent.com/wf021325/qx/master/task/ampDache.js
+
+
 
 #获取cookie合集
 #https://raw.githubusercontent.com/ClydeTime/Quantumult/main/Task/Remote_Cookie.conf
