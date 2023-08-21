@@ -2,7 +2,7 @@
 # 京东、百度贴吧、阿里网盘、bilibili、bing积分、建行生活、起点、高德地图签到
 
 
-hostname = ms.jr.jd.com, me-api.jd.com,  api.m.jd.com,tiebac.baidu.com, c.tieba.baidu.com, auth.aliyundrive.com, *.bilibili.com, rewards.bing.com, yunbusiness.ccb.com, h5.if.qidian.com, *.amap.com
+hostname = ms.jr.jd.com, me-api.jd.com,  api.m.jd.com,tiebac.baidu.com, c.tieba.baidu.com, auth.alipan.com, *.bilibili.com, rewards.bing.com, yunbusiness.ccb.com, h5.if.qidian.com, *.amap.com
 
 
 #************************************#
@@ -20,7 +20,9 @@ hostname = ms.jr.jd.com, me-api.jd.com,  api.m.jd.com,tiebac.baidu.com, c.tieba.
 
 # 阿里网盘签到获取Cookie
 ; hostname = auth.aliyundrive.com
-^https:\/\/auth.aliyundrive.com\/v2\/account\/token url script-response-body https://raw.githubusercontent.com/lowking/Scripts/master/ali/aliYunPanCheckIn.js
+# ^https:\/\/auth.aliyundrive.com\/v2\/account\/token url script-response-body https://raw.githubusercontent.com/lowking/Scripts/master/ali/aliYunPanCheckIn.js
+; hostname = %APPEND% auth.alipan.com
+^https:\/\/auth.(aliyundrive|alipan).com\/v2\/account\/token url script-response-body https://raw.githubusercontent.com/lowking/Scripts/master/ali/aliYunPanCheckIn.js
 
  # 哔哩哔哩
 ; hostname = *.bilibili.com
