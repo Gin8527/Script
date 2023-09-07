@@ -19,13 +19,46 @@ WallCraft = type=http-response,pattern=^https?:\/\/.*\.(intsig\.net|camscanner\.
 # hostname = %APPEND% api.m.jd.com
 京东比价 = type=http-response,requires-body=1,pattern=^https?://api\.m\.jd\.com/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig),script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_price.js
 
-# Sub-Store Cache
-# 模块链接：https://raw.githubusercontent.com/Keywos/rule/main/Sub-Store/Sub-Store.sgmodule
-# hostname = %APPEND% sub.store
-# 主程序
-#Sub-Store Cache = type=http-request,pattern=^https?:\/\/sub\.store,requires-body=true,timeout=120,max-size=131072,ability=http-client-policy,script-update-interval=-1,script-path=https://raw.githubusercontent.com/Keywos/rule/main/Sub-Store/sub-store.min-nolog.js
-# 定时任务
-#Sub-Store Sync = type=cron,cronexp=0 0-23/3 * * *,wake-system=1,timeout=120,script-path=https://raw.githubusercontent.com/Keywos/rule/main/Sub-Store/cron-sync-artifacts.min.js
+# Nicegram
+# hostname = restore-access.indream.app
+Nicegram = type=http-response,pattern=^https?:\/\/restore-access\.indream\.app\/restoreAccess,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/nicegram.js
+
+# Spotify (不能超高音质)
+# hostname = spclient.wg.spotify.com
+Spotify-json = type=http-request,pattern=^https?:\/\/spclient\.wg\.spotify\.com\/(artistview\/v1\/artist|album-entity-view\/v2\/album)\/,requires-body=0,script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/spotify-json.js
+Spotify-proto = type=http-response,pattern=^https?:\/\/spclient\.wg\.spotify\.com\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)$,requires-body=1,binary-body-mode=1,max-size=0,script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/spotify-proto.js,script-update-interval=0
+
+# 小组件盒子
+# hostname = widget-box-api.codefuture.top
+小组件盒子 = type=http-response,pattern=^https?:\/\/widget-box-api\.codefuture\.top\/.+\/users\/me,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/xzjhz.js
+
+# TopWidgets万能小组件
+# hostname = top-widgets-api.xiaozujian.com
+万能小组件 = type=http-response,pattern=^https?:\/\/top-widgets-api\.xiaozujian\.com\/api\/app\/config\/userConfig,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/89996462/Quantumult-X/main/ycdz/widgets.js
+
+# 番薯小说
+# hostname = ggs.manmeng168.com
+番薯小说 = type=http-response,pattern=^https?:\/\/ggs\.manmeng168\.com,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/fanshuxiaoshuo.js
+
+# 青柠设计-P图抠图海报
+# hostname = *.qingning6.com
+青柠设计 = type=http-response,pattern=^https?:\/\/.*\.qingning6\.com\/api\/(user\/getUserInfo|team\/teamInfo),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/qnsj.js
+
+# Xmind-思维导图
+# hostname = www.xmind.*
+Xmind-思维导图 = type=http-response,pattern=^https?:\/\/www\.xmind\.(cn|net|app)\/.+\/devices,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/Xmind.js
+
+# 夸克
+# hostname = drive*.quark.cn
+夸克 = type=http-response,pattern=^https?:\/\/drive.*\.quark\.cn\/.+\/clouddrive\/(member.+|distribute\/detail.+|capacity\/growth\/info),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/kuake.js
+
+# iScreen小组件-辅助解锁
+# hostname = cs.kuso.xyz
+iscreen辅助 = type=http-response,pattern=^https?:\/\/cs\.kuso\.xyz\/configs.+,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/iscreenfz.js
+
+# 人人视频
+# hostname = api.hujuvod.com
+人人视频 = type=http-response,pattern=^https?:\/\/api\.hujuvod\.com\/(user\/personal\/information|app\/drama\/page),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/renrenshipin.js
 
 [MITM]
-hostname= %APPEND% app.bilibili.com, *.camscanner.com, *.intsig.net, api.picsart.c*, api.meiease.c*, *.wallpaperscraft.com, api.m.jd.com
+hostname= %APPEND% app.bilibili.com, *.camscanner.com, *.intsig.net, api.picsart.c*, api.meiease.c*, *.wallpaperscraft.com, api.m.jd.com, restore-access.indream.app, spclient.wg.spotify.com, widget-box-api.codefuture.top, top-widgets-api.xiaozujian.com, ggs.manmeng168.com, *.qingning6.com, www.xmind.*, drive*.quark.cn, cs.kuso.xyz, api.hujuvod.com
