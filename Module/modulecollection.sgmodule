@@ -13,8 +13,7 @@ Bili1080P=type=http-response,pattern=^https?:\/\/app\.bilibili\.com\/x\/v2\/acco
 
 # Wallcraft解锁会员
 # hostname = *.wallpaperscraft.com
-WallCraft = type=http-response,pattern=^https?:\/\/.*\.(intsig\.net|camscanner\.com),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/CamScanner.js
-
+WallCraft = type=http-response,pattern=^https?:\/\/.*\.(intsig\.net|camscanner\.com),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/Wall.js
 # 京东比价
 # hostname = %APPEND% api.m.jd.com
 京东比价 = type=http-response,requires-body=1,pattern=^https?://api\.m\.jd\.com/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig),script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_price.js
