@@ -8,9 +8,8 @@
 Bili1080P=type=http-response,pattern=^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/myinfo\?,requires-body=1,script-path=https://raw.githubusercontent.com/deezertidal/private/master/js-backup/Script/bilibili_json.js
 
 # 扫描全能王解锁会员
-# hostname = *.camscanner.com, *.intsig.net
-扫描全能王=type=http-response,pattern=^https?:\/\/.*\.(intsig\.net|camscanner\.com),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/CamScanner.js
-
+# hostname = ap*.intsig.net
+扫描全能王=type=http-response,pattern=^https:\/\/(api|api-cs)\.intsig\.net\/purchase\/cs\/query_property\?,requires-body=1,max-size=0,script-path=https://github.com/ddgksf2013/dev/raw/main/CamscannerProCrack.js
 # Wallcraft解锁会员
 # hostname = *.wallpaperscraft.com
 WallCraft = type=http-response,pattern=^https?:\/\/.*\.(intsig\.net|camscanner\.com),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/Wall.js
@@ -60,4 +59,4 @@ iscreen辅助 = type=http-response,pattern=^https?:\/\/cs\.kuso\.xyz\/configs.+,
 人人视频 = type=http-response,pattern=^https?:\/\/api\.hujuvod\.com\/(user\/personal\/information|app\/drama\/page),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/renrenshipin.js
 
 [MITM]
-hostname= %APPEND% app.bilibili.com, *.camscanner.com, *.intsig.net, api.picsart.c*, api.meiease.c*, *.wallpaperscraft.com, api.m.jd.com, restore-access.indream.app, spclient.wg.spotify.com, widget-box-api.codefuture.top, top-widgets-api.xiaozujian.com, ggs.manmeng168.com, *.qingning6.com, www.xmind.*, drive*.quark.cn, cs.kuso.xyz, api.hujuvod.com
+hostname= %APPEND% app.bilibili.com, ap*.intsig.net, api.picsart.c*, api.meiease.c*, *.wallpaperscraft.com, api.m.jd.com, restore-access.indream.app, spclient.wg.spotify.com, widget-box-api.codefuture.top, top-widgets-api.xiaozujian.com, ggs.manmeng168.com, *.qingning6.com, www.xmind.*, drive*.quark.cn, cs.kuso.xyz, api.hujuvod.com
