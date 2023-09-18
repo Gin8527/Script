@@ -62,11 +62,11 @@ iscreen辅助 = type=http-response,pattern=^https?:\/\/cs\.kuso\.xyz\/configs.+,
 
 # Notability
 # hostname = notability.com
-Notability = type=http-response,pattern=^https?:\/\/notability\.com\/(global|subscriptions),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Gin8527/Script/main/quanX/notability.js
+# Notability = type=http-response,pattern=^https?:\/\/notability\.com\/(global|subscriptions),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Gin8527/Script/main/quanX/notability.js
 
 # Noted
 # hostname = %APPEND% subscription-api.notedapp.io
-Noted_9 = type=http-response, pattern=^https:\/\/subscription-api\.notedapp\.io\/api\/verifyReceipt, requires-body=1, max-size=0, script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/Noted.js
+# Noted_9 = type=http-response, pattern=^https:\/\/subscription-api\.notedapp\.io\/api\/verifyReceipt, requires-body=1, max-size=0, script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/Noted.js
 
 # Goodnotes
 # hostname = isi.*.g*.com
