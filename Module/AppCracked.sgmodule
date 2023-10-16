@@ -1,5 +1,5 @@
 #!name=AppCracked
-#!desc=扫描全能王解锁、Wallcraft解锁、京东比价、Spotify、青柠设计、夸克、iScreen、Notability、Goodnotes
+#!desc=扫描全能王解锁、Wallcraft解锁、京东比价、Spotify、青柠设计、夸克、iScreen、Notability、Goodnotes、ChatAI、stormsniffer
 
 [Script]
 
@@ -45,5 +45,15 @@ Notability = type=http-response,pattern=^https?:\/\/notability\.com\/(global|sub
 gg = type=http-response, pattern=^https:\/\/isi\..*\.g.*\.com\/.+\/(receipts$|subscribers\/?(.*?)*$), requires-body=1, max-size=0, script-path=https://raw.githubusercontent.com/Gin8527/Script/main/quanX/gg.js
 gg = type=http-request, pattern=^https:\/\/isi\..*\.g.*\.com\/.+\/(receipts$|subscribers\/?(.*?)*$), requires-body=1, max-size=0, script-path=https://raw.githubusercontent.com/Gin8527/Script/main/quanX/gg.js
 
+# ChatAI
+# hostname = %APPEND% api.revenuecat.com
+chatai_8 = type=http-response, pattern=^https?:\/\/api\.revenuecat\.com\/.+\/(receipts$|subscribers\/?(.*?)*$), requires-body=true, max-size=3145728, script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/Revenuecat/chatai.js, timeout=60, script-update-interval=0
+chatai_9 = type=http-request, pattern=^https?:\/\/api\.revenuecat\.com\/.+\/(receipts$|subscribers\/?(.*?)*$), script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/Revenuecat/chatai.js, timeout=60, script-update-interval=0
+
+# storm sniffer
+# hostname = %APPEND% *.x-storm.com
+storm_6 = type=http-response, pattern=^https?:\/\/api\.x-storm\.com\/app\/(user-profile|share-code\/get)\/$, requires-body=true, max-size=3145728, script-path=https://raw.githubusercontent.com/wf021325/qx/master/js/storm.js, timeout=60, script-update-interval=0
+
+
 [MITM]
-hostname= *.camscanner.com, *.intsig.net, api.picsart.c*, api.meiease.c*, *.wallpaperscraft.com, api.m.jd.com, restore-access.indream.app, spclient.wg.spotify.com, widget-box-api.codefuture.top, top-widgets-api.xiaozujian.com, ggs.manmeng168.com, *.qingning6.com, www.xmind.*, drive*.quark.cn, cs.kuso.xyz, api.hujuvod.com, notability.com,  %APPEND% subscription-api.notedapp.io, isi.*.g*.com
+hostname= *.camscanner.com, *.intsig.net, *.wallpaperscraft.com, api.m.jd.com, spclient.wg.spotify.com, *.qingning6.com, drive*.quark.cn, cs.kuso.xyz, notability.com, isi.*.g*.com, %APPEND% api.revenuecat.com, %APPEND% *.x-storm.com
