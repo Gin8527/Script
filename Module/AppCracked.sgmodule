@@ -1,5 +1,5 @@
-#!name=自用模块合集
-#!desc=扫描全能王解锁、Wallcraft解锁、京东比价、Nicegram、Spotify、小组件盒子、TopWidgets万能小组件、番薯小说、青柠设计、Xmind、夸克、iScreen、人人视频、Notability、Noted、Goodnotes
+#!name=AppCracked
+#!desc=扫描全能王解锁、Wallcraft解锁、京东比价、Spotify、青柠设计、夸克、iScreen、Notability、Goodnotes
 
 [Script]
 
@@ -19,34 +19,14 @@ Wallcraft壁纸 = type=http-response,pattern=^https?:\/\/billing-ios\.wallpapers
 # hostname = %APPEND% api.m.jd.com
 京东比价 = type=http-response,requires-body=1,pattern=^https?://api\.m\.jd\.com/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig),script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_price.js
 
-# Nicegram
-# hostname = restore-access.indream.app
-Nicegram = type=http-response,pattern=^https?:\/\/restore-access\.indream\.app\/restoreAccess,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Gin8527/Script/main/quanX/nicegram.js
-
 # Spotify (不能超高音质)
 # hostname = spclient.wg.spotify.com
 Spotify-json = type=http-request,pattern=^https?:\/\/spclient\.wg\.spotify\.com\/(artistview\/v1\/artist|album-entity-view\/v2\/album)\/,requires-body=0,script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/spotify-json.js
 Spotify-proto = type=http-response,pattern=^https?:\/\/spclient\.wg\.spotify\.com\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)$,requires-body=1,binary-body-mode=1,max-size=0,script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/spotify-proto.js,script-update-interval=0
 
-# 小组件盒子
-# hostname = widget-box-api.codefuture.top
-小组件盒子 = type=http-response,pattern=^https?:\/\/widget-box-api\.codefuture\.top\/.+\/users\/me,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Gin8527/Script/main/quanX/xzjhz.js
-
-# TopWidgets万能小组件
-# hostname = top-widgets-api.xiaozujian.com
-万能小组件 = type=http-response,pattern=^https?:\/\/top-widgets-api\.xiaozujian\.com\/api\/app\/config\/userConfig,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/89996462/Quantumult-X/main/ycdz/widgets.js
-
-# 番薯小说
-# hostname = ggs.manmeng168.com
-番薯小说 = type=http-response,pattern=^https?:\/\/ggs\.manmeng168\.com,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Gin8527/Script/main/quanX/fanshuxiaoshuo.js
-
 # 青柠设计-P图抠图海报
 # hostname = *.qingning6.com
 青柠设计 = type=http-response,pattern=^https?:\/\/.*\.qingning6\.com\/api\/(user\/getUserInfo|team\/teamInfo),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Gin8527/Script/main/quanX/qnsj.js
-
-# Xmind-思维导图
-# hostname = www.xmind.*
-Xmind-思维导图 = type=http-response,pattern=^https?:\/\/www\.xmind\.(cn|net|app)\/.+\/devices,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Gin8527/Script/main/quanX/Xmind.js
 
 # 夸克
 # hostname = drive*.quark.cn
@@ -56,17 +36,9 @@ Xmind-思维导图 = type=http-response,pattern=^https?:\/\/www\.xmind\.(cn|net|
 # hostname = cs.kuso.xyz
 iscreen辅助 = type=http-response,pattern=^https?:\/\/cs\.kuso\.xyz\/configs.+,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Gin8527/Script/main/quanX/iscreenfz.js
 
-# 人人视频
-# hostname = api.hujuvod.com
-人人视频 = type=http-response,pattern=^https?:\/\/api\.hujuvod\.com\/(user\/personal\/information|app\/drama\/page),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Gin8527/Script/main/quanX/renrenshipin.js
-
 # Notability
 # hostname = notability.com
-# Notability = type=http-response,pattern=^https?:\/\/notability\.com\/(global|subscriptions),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Gin8527/Script/main/quanX/notability.js
-
-# Noted
-# hostname = %APPEND% subscription-api.notedapp.io
-# Noted_9 = type=http-response, pattern=^https:\/\/subscription-api\.notedapp\.io\/api\/verifyReceipt, requires-body=1, max-size=0, script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/Noted.js
+Notability = type=http-response,pattern=^https?:\/\/notability\.com\/(global|subscriptions),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Gin8527/Script/main/quanX/notability.js
 
 # Goodnotes
 # hostname = isi.*.g*.com
