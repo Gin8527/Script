@@ -56,4 +56,4 @@ storm_6 = type=http-response, pattern=^https?:\/\/api\.x-storm\.com\/app\/(user-
 
 
 [MITM]
-hostname= *.camscanner.com, *.intsig.net, *.wallpaperscraft.com, api.m.jd.com, spclient.wg.spotify.com, *.qingning6.com, drive*.quark.cn, cs.kuso.xyz, notability.com, isi.*.g*.com, %APPEND% api.revenuecat.com, *.x-storm.com
+hostname= *.camscanner.com, *.intsig.net, *.wallpaperscraft.com, api.m.jd.com, spclient.wg.spotify.com, *.qingning6.com, drive*.quark.cn, cs.kuso.xyz, notability.com, isi.*.g*.com, api.revenuecat.com, *.x-storm.com
