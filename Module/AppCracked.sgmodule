@@ -47,8 +47,8 @@ gg = type=http-request, pattern=^https:\/\/isi\..*\.g.*\.com\/.+\/(receipts$|sub
 
 # ChatAI
 # hostname = %APPEND% api.revenuecat.com
-chatai_8 = type=http-response, pattern=^https?:\/\/api\.revenuecat\.com\/.+\/(receipts$|subscribers\/?(.*?)*$), requires-body=true, max-size=3145728, script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/Revenuecat/chatai.js, timeout=60, script-update-interval=0
-chatai_9 = type=http-request, pattern=^https?:\/\/api\.revenuecat\.com\/.+\/(receipts$|subscribers\/?(.*?)*$), script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/Revenuecat/chatai.js, timeout=60, script-update-interval=0
+# chatai_8 = type=http-response, pattern=^https?:\/\/api\.revenuecat\.com\/.+\/(receipts$|subscribers\/?(.*?)*$), requires-body=true, max-size=3145728, script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/Revenuecat/chatai.js, timeout=60, script-update-interval=0
+# chatai_9 = type=http-request, pattern=^https?:\/\/api\.revenuecat\.com\/.+\/(receipts$|subscribers\/?(.*?)*$), script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/Revenuecat/chatai.js, timeout=60, script-update-interval=0
 
 # storm sniffer
 # hostname = %APPEND% *.x-storm.com
@@ -56,4 +56,4 @@ storm_6 = type=http-response, pattern=^https?:\/\/api\.x-storm\.com\/app\/(user-
 
 
 [MITM]
-hostname= %APPEND% *.camscanner.com, *.intsig.net, *.wallpaperscraft.com, api.m.jd.com, spclient.wg.spotify.com, *.qingning6.com, drive*.quark.cn, cs.kuso.xyz, notability.com, isi.*.g*.com, api.revenuecat.com, *.x-storm.com
+hostname= %APPEND% *.camscanner.com, *.intsig.net, *.wallpaperscraft.com, api.m.jd.com, spclient.wg.spotify.com, *.qingning6.com, drive*.quark.cn, cs.kuso.xyz, notability.com, isi.*.g*.com, *.x-storm.com
