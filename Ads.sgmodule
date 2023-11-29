@@ -32,6 +32,12 @@
 # 云闪付 //wallet.95516.com
 ^https:\/\/wallet\.95516\.com(:10533)?\/s\/wl\/icon\/large\/1 - reject
 
+# > weipinhui
+^https?:\/\/mapi\.appvipshop\.com\/vips-mobile\/rest\/activity\/advertisement\/get - reject
+https://b.appsimg.com/upload/momin/ - reject
+https://mapi.appvipshop.com/vips-mobile/rest/activity/advertisement/get - reject
+^https:\/\/mapi\.appvipshop\.com\/vips-mobile\/rest\/iosAdInfo\/report - reject
+
 [Script]
 
 # 12306 开屏广告 //ad.12306.cn
