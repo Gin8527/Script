@@ -1,0 +1,293 @@
+#!name=MyBlockAds
+#!desc=去广告合集，收集自用
+
+[MITM]
+hostname = %APPEND% elemecdn.com,fuss10.elemecdn.com,www1.elecfans.com,gab.122.gov.cn,gw.alicdn.com, acs.m.taobao.com,wallet.95516.com,api.alipan.com, member.alipan.com,acs.m.taobao.com, heic.alicdn.com, guide-acs.m.taobao.com, poplayer.template.alibaba.com,pan.baidu.com, update.pan.baidu.com,flowplus.meituan.net, img.meituan.net, s3plus.meituan.net,ad.12306.cn,api.m.jd.com,tiebac.baidu.com,app.bilibili.com,api.bilibili.com,api.live.bilibili.com,grpc.biliapi.net,*.zhihu.com,*.weibo.cn,*.weibo.com,sinaurl.cn,t.cn,weibo.cn
+
+[URL Rewrite]
+# 饿了么 //elemecdn.com, fuss10.elemecdn.com, www1.elecfans.com
+^https:\/\/elemecdn.com\/.+\/sitemap - reject
+^https:\/\/fuss10.elemecdn.com\/.+\/w\/640\/h\/\d{3,4} - reject
+^https:\/\/fuss10.elemecdn.com\/.+\/w\/750\/h\/\d{3,4} - reject
+^https:\/\/fuss10.elemecdn.com\/.+\.mp4 - reject
+^https:\/\/www1.elecfans.com\/www\/delivery - reject
+# 建设银行
+^http:\/\/image1\.ccb\.com\/newsinfo\/eBranch\/check\/(nf\/newfin\/activity|po\/poortheme\/activity)\/\w+\.png - reject
+# 交管12123 //gab.122.gov.cn
+^https:\/\/gab\.122\.gov\.cn\/eapp\/m\/sysquery\/adver$ - reject
+# 闲鱼 //gw.alicdn.com, acs.m.taobao.com
+^https:\/\/gw\.alicdn\.com\/mt\/ - reject
+^https:\/\/gw\.alicdn\.com\/tfs\/.+\d{3,4}-\d{4} - reject
+^https:\/\/gw\.alicdn\.com\/tps\/.+\d{3,4}-\d{4} - reject
+# 云闪付 //wallet.95516.com
+^https:\/\/wallet\.95516\.com(:10533)?\/s\/wl\/icon\/large\/1 - reject
+
+# bilibili
+# 首页 DefaultWord,推荐,热搜发现,右上角活动,标签页,观影页,直播,直播间商品广告浮窗
+^https:\/\/(app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$ - reject
+# 开屏广告 //app.bilibili.com
+^http:\/\/upos-sz-static\.bilivideo\.com\/ssaxcode\/\w{2}\/\w{2}\/\w{32}-1-SPLASH - reject
+# IP请求,地理位置请求 //api.bilibili.com
+^https:\/\/app\.bilibili\.com\/x\/resource\/ip - reject
+
+# zhihu
+^https:\/\/api\.zhihu\.com\/unlimited\/go\/my_card - reject
+# 其他,服务器推送配置
+^https:\/\/api\.zhihu\.com\/ab\/api\/v1\/products\/zhihu\/platforms\/ios\/config - reject
+^https:\/\/link\.zhihu\.com\/\?target=(https?)?(%3A|:)?(\/\/|%2F%2F)?(.*?)(&source.*)?$ http://$4 302
+^https:\/\/www\.zhihu\.com\/api\/v4\/hot_recommendation - reject
+^https:\/\/www\.zhihu\.com\/api\/v4\/mcn\/v2\/linkcards\? - reject
+^https:\/\/www\.zhihu\.com\/api\/v4/(answers|questions)\/\d+/related-readings - reject
+^https:\/\/www\.zhihu\.com\/commercial_api\/banners_v3\/mobile_banner - reject
+^https:\/\/zhuanlan\.zhihu\.com\/api\/articles\/\d+\/recommendation - reject
+
+# weibo
+^https:\/\/sdkapp\.uve\.weibo\.com\/interface\/sdk\/(get-lbs-cell-info\.php|sdkconfig\.php) - reject
+
+[Map Local]
+# 阿里云盘 //api.alipan.com, member.alipan.com
+^https:\/\/api\.alipan\.com\/adrive\/v1\/file\/getTopFolders data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+# 阿里巴巴 //acs.m.taobao.com, heic.alicdn.com, guide-acs.m.taobao.com, poplayer.template.alibaba.com
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.crm\.screen\.(allresource|predict) data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alibaba\.advertisementservice\.getadv data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimama\.etao\.config\.query\/.+?etao_advertise data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimusic\.common\.mobileservice\.startinit data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.etao\.noah\.query\/.+tao_splash data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopadvertiseapi\.queryadvertise data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.o2o\.ad\.gateway\.get data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.taobao\.idle\.home\.welcome data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.trip\.activity\.querytmsresources data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/heic\.alicdn\.com\/imgextra\/i\d\/\d*\/?[\w!]+-\d-(octopus|tps-1125-1602|tps-1080-1920)\.(jp|pn)g_(1\d{3}|9\d{2})x(1\d{3}|9\d{2})q[59]0 data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.cainiao\.adx\.flyad\.getad data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.taobao\.(volvo\.secondfloor\.getconfig|wireless\.home\.newface\.awesome\.get) data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+# 百度云 //pan.baidu.com, update.pan.baidu.com
+^https:\/\/pan\.baidu\.com\/(act\/api\/activityentry|act\/v2\/welfare\/list|rest\/2\.0\/pcs\/adx)\? data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/update\.pan\.baidu\.com\/statistics\? data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(searchBoxWord|stationPullService|uniformRecommend) data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/api\.coolapk\.com\/v6\/search\?.*type=hotSearch data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+# 美团 & 美团外卖//flowplus.meituan.net, img.meituan.net, s3plus.meituan.net
+^http:\/\/wmapi\.meituan\.com\/api\/v7\/(loadInfo|openscreen|startpicture)\? data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/flowplus\.meituan\.net\/v1\/mss_\w+\/linglong\/\d+\.jpg data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/img\.meituan\.net\/bizad\/bizad_brandCpt_\d+\.jpg data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/s3plus\.meituan\.net\/v1\/mss_\w+\/(brandcpt-vedio|waimai-alita)\/\w+\.zip$ data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+# bilibili
+^https:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v1\/ecommerce-user\/get_shopping_info\? data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/api\.bilibili\.com\/x\/web-interface\/zone\?jsonp=jsonp$ data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-200.txt"
+
+# zhihu
+^https:\/\/api\.zhihu\.com\/commercial_api\/(banners_v3\/app_topstory_banner|launch_v2|real_time_launch_v2) data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/api\.zhihu\.com\/content-distribution-core\/bubble\/common\/settings data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/api\.zhihu\.com\/(moments\/lastread|drama\/hot-drama-list) data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/api\.zhihu\.com\/root\/window data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+# 我的页面 项目列表,会员卡片
+^https:\/\/api\.zhihu\.com\/me\/guides data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+# 搜索页 关键词,猜你想搜
+^https:\/\/api\.zhihu\.com\/search\/preset_words data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/www\.zhihu\.com\/api\/v4\/search\/related_queries\/(article|answer)\/\d+ data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+# 回答详情页,评论区顶部,下一个回答
+^https:\/\/api\.zhihu\.com\/comment_v5\/(articles|answers)\/\d+\/list-headers data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/api\.zhihu\.com\/prague\/related_suggestion_native\/feed\? data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/api\.zhihu\.com\/v5\.1\/topics\/answer\/\d+\/relation data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/api\.zhihu\.com\/ad-style-service\/request data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/appcloud2\.zhihu\.com\/v3\/resource\?group_name=mp data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+# 网页版去广告 //www.zhihu.com, zhuanlan.zhihu.com
+^https:\/\/api\.zhihu\.com\/distribute\/rhea\/qa_ad_card\/h5\/recommendation\? data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+# weibo
+^https:\/\/api\.weibo\.cn\/2\/(ug\/checkin\/list|push\/daily)\? data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/api\.weibo\.cn\/2\/!\/live\/media_homelist\? data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/api\.weibo\.cn\/2\/comments\/bullet_screens\? data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/api\.weibo\.cn\/2\/photo\/info\? data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/api\.weibo\.cn\/2\/statuses\/(container_positive|push_info)\? data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/api\.weibo\.cn\/2\/vote\/get_vote_detail\? data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/api\.weibo\.cn\/2\/!\/chaohua\/discovery\/home_bottom\/switch\? data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/api\.weibo\.cn\/2\/!\/huati\/(discovery_home_bottom_getdotinfo|mobile_discovery_searchchange)\? data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/api\.weibo\.cn\/2\/!\/wbox\/\w+\/(home_bottom_modal|interest_category)\? data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+# 发现页 热门微博信息流,搜索列表,热搜提醒,猜你想搜,视频流红包
+^https:\/\/api\.weibo\.cn\/2\/search\/container_discover\? data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/api\.weibo\.cn\/2\/hot\/hours_spotlight\? data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/api\.weibo\.cn\/2\/video\/redpacket\? data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/api\.weibo\.cn\/!\/sug\/list\/finderchange\? data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+# 开屏广告 //*.uve.weibo.com
+^https:\/\/bootrealtime\.uve\.weibo\.com\/v[23]\/ad\/realtime data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+# 微博长文章推广
+^https:\/\/card\.weibo\.com\/article\/m\/aj\/(reward|uvead)\? data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+^https:\/\/weibo\.com\/ttarticle\/x\/m\/aj\/(reward|uvead)\? data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+
+
+[Script]
+# 12306 开屏广告 //ad.12306.cn
+12306 = type=http-request, pattern=^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/12306.js, requires-body=true, max-size=-1, timeout=60
+
+# amdc
+header = type=http-response, pattern=^http:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch$, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/header.js, timeout=60
+
+adrive = type=http-response, pattern=^https:\/\/api\.alipan\.com\/apps\/v2\/users\/home\/(news|widgets), script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/adrive.js, requires-body=true, max-size=-1, timeout=60
+
+adrive = type=http-response, pattern=^https:\/\/member\.alipan\.com\/v1\/users\/onboard_list, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/adrive.js, requires-body=true, max-size=-1, timeout=60
+
+myBlockAds = type=http-response, pattern=^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.taobao\.(cloudvideo\.video\.query|wireless\.home\.splash\.awesome\.get), script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/myBlockAds.js, requires-body=true, max-size=-1, timeout=60
+
+myBlockAds = type=http-response, pattern=^https:\/\/poplayer\.template\.alibaba\.com\/\w+\.json, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/myBlockAds.js, requires-body=true, max-size=-1, timeout=60
+
+# 京东 //api.m.jd.com
+jingdong = type=http-response, pattern=^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome), script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/jingdong.js, requires-body=true, max-size=-1, timeout=60
+
+# 贴吧全面去广告 //tiebac.baidu.com
+tiebaJson = type=http-response, pattern=^http:\/\/c\.tieba\.baidu\.com\/c\/f\/(excellent\/personalized|frs\/(generalTabList|page|threadlist)|pb\/(pic)?page)$, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/baidu/tiebaJson.js, requires-body=true, binary-body-mode=false, max-size=-1, timeout=60
+
+tiebaProto = type=http-response, pattern=^http:\/\/c\.tieba\.baidu\.com\/c\/f\/(excellent\/personalized|frs\/(generalTabList|page|threadlist)|pb\/(pic)?page)\?cmd, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/baidu/tiebaProto.js, requires-body=true, binary-body-mode=true, max-size=-1, timeout=60
+
+tiebaJson = type=http-response, pattern=^http:\/\/c\.tieba\.baidu\.com\/c\/s\/sync$, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/baidu/tiebaJson.js, requires-body=true, binary-body-mode=false, max-size=-1, timeout=60
+
+tiebaJson = type=http-response, pattern=^https:\/\/tiebac\.baidu\.com\/tiebaads\/commonbatch\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/baidu/tiebaJson.js, requires-body=true, binary-body-mode=false, max-size=-1, timeout=60
+
+# bilibili
+# Proto 动态广告,后台播放限制,播放页广告 //app.bilibili.com
+biliProtoA = type=http-response, pattern=^https:\/\/(app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.dynamic\.v2\.Dynamic\/DynAll, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/bilibili/biliProtoA.js, requires-body=true, binary-body-mode=true, max-size=-1, timeout=60
+
+biliProtoA = type=http-response, pattern=^https:\/\/(app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.interface\.v1\.Teenagers\/ModeStatus, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/bilibili/biliProtoA.js, requires-body=true, binary-body-mode=true, max-size=-1, timeout=60
+
+biliProtoA = type=http-response, pattern=^https:\/\/(app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.(view|viewunite)\.v1\.View\/(View|ViewProgress), script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/bilibili/biliProtoA.js, requires-body=true, binary-body-mode=true, max-size=-1, timeout=60
+
+biliProtoA = type=http-response, pattern=^https:\/\/(app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.community\.service\.dm\.v1\.DM\/DmView, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/bilibili/biliProtoA.js, requires-body=true, binary-body-mode=true, max-size=-1, timeout=60
+
+biliProtoA = type=http-response, pattern=^https:\/\/(app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.main\.community\.reply\.v1\.Reply\/MainList, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/bilibili/biliProtoA.js, requires-body=true, binary-body-mode=true, max-size=-1, timeout=60
+
+biliProtoA = type=http-response, pattern=^https:\/\/(app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.polymer\.app\.search\.v1\.Search\/SearchAll, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/bilibili/biliProtoA.js, requires-body=true, binary-body-mode=true, max-size=-1, timeout=60
+
+bili = type=http-response, pattern=^https:\/\/app\.bilibili\.com\/x\/v2\/(feed\/index(\/story)?|search\/square)\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/bilibili/bili.js, requires-body=true, max-size=-1, timeout=60
+
+bili = type=http-response, pattern=^https:\/\/app\.bilibili\.com\/x\/resource\/(top\/activity|show\/tab\/v2)\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/bilibili/bili.js, requires-body=true, max-size=-1, timeout=60
+
+bili = type=http-response, pattern=^https:\/\/api\.bilibili\.com\/pgc\/page\/(bangumi|cinema\/tab\?), script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/bilibili/bili.js, requires-body=true, max-size=-1, timeout=60
+
+bili = type=http-response, pattern=^https:\/\/api\.live\.bilibili\.com\/xlive\/app-room\/v1\/index\/getInfoByRoom\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/bilibili/bili.js, requires-body=true, max-size=-1, timeout=60
+
+bili = type=http-response, pattern=^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/(brand\/list|event\/list2|list|show)\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/bilibili/bili.js, requires-body=true, max-size=-1, timeout=60
+
+# 我的页面 解锁1080P高码率,4K画质,皮肤推送 //app.bilibili.com
+bili = type=http-response, pattern=^https:\/\/app\.bilibili\.com\/x\/v2\/account\/(mine(\/ipad)?|myinfo)\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/bilibili/bili.js, requires-body=true, max-size=-1, timeout=60
+
+bili = type=http-response, pattern=^https:\/\/app\.bilibili\.com\/x\/resource\/show\/skin\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/bilibili/bili.js, requires-body=true, max-size=-1, timeout=60
+
+# zhihu
+# 首页 悬浮图标,顶部横幅,开屏广告,关注页推荐,推荐信息流,热榜信息流,热榜直播,回答底部卡片
+zhihu = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/commercial_api\/app_float_layer, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/zhihu.js, requires-body=true, max-size=-1, timeout=60
+
+zhihu = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/feed\/render\/tab\/config\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/zhihu.js, requires-body=true, max-size=-1, timeout=60
+
+zhihu = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/(moments_v3|topstory\/hot-lists\/total|topstory\/recommend), script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/zhihu.js, requires-body=true, max-size=-1, timeout=60
+
+zhihu = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/v2\/topstory\/hot-lists\/everyone-seeing\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/zhihu.js, requires-body=true, max-size=-1, timeout=60
+
+replaceBody = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/search\/recommend_query\/v2\?, script-path=https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/scripts/replace-body.js, requires-body=true, max-size=3145728, timeout=30, argument="recommend_queries":\{.+\}->"recommend_queries":{}
+
+zhihu = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/next-(bff|data|render)\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/zhihu.js, requires-body=true, max-size=-1, timeout=60
+
+zhihu = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/questions\/\d+(\/answers|\/feeds|\?include=), script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/zhihu.js, requires-body=true, max-size=-1, timeout=60
+
+zhihu = type=http-response, pattern=^https:\/\/www\.zhihu\.com\/api\/v4\/(articles|answers)\/\d+\/recommendations?\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/zhihu.js, requires-body=true, max-size=-1, timeout=60
+
+zhihu = type=http-response, pattern=^https:\/\/appcloud2\.zhihu\.com\/v3\/config, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/zhihu.js, requires-body=true, max-size=-1, timeout=60
+
+zhihu = type=http-response, pattern=^https:\/\/m-cloud\.zhihu\.com\/api\/cloud\/config\/all\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/zhihu.js, requires-body=true, max-size=-1, timeout=60
+
+# weibo
+# 首页 签到,发布按钮,侧边栏,右上角红包,顶部tab,侧边栏提醒,超话tab悬浮,顶部直播
+weibo = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/(checkin\/show|client\/publisher_list|push\/active)\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/weibo.js, requires-body=true, max-size=-1, timeout=60
+
+weibo = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/groups\/allgroups\/v2\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/weibo.js, requires-body=true, max-size=-1, timeout=60
+
+# 详情页 超话,评论区,看图界面,个人主页,我的页面,信息流,商品橱窗,视频流,视频号,视频调查,话题卡片
+weibo = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/(cardlist|page)\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/weibo.js, requires-body=true, max-size=-1, timeout=60
+
+weibo = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/comments\/build_comments\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/weibo.js, requires-body=true, max-size=-1, timeout=60
+
+weibo = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/(container\/asyn|flowlist)\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/weibo.js, requires-body=true, max-size=-1, timeout=60
+
+weibo = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/friendships\/destroy\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/weibo.js, requires-body=true, max-size=-1, timeout=60
+
+weibo = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/profile\/(container_timeline|dealatt|me|statuses\/tab|userinfo)\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/weibo.js, requires-body=true, max-size=-1, timeout=60
+
+weibo = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/statuses\/(container_timeline(_hot|_topic|_topicpage|_unread)?|unread_hot_timeline)\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/weibo.js, requires-body=true, max-size=-1, timeout=60
+
+weibo = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/statuses\/(extend|show)\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/weibo.js, requires-body=true, max-size=-1, timeout=60
+
+weibo = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/video\/tiny_stream_video_list\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/weibo.js, requires-body=true, max-size=-1, timeout=60
+
+weibo = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/!\/huati\/discovery_home_bottom_channels\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/weibo.js, requires-body=true, max-size=-1, timeout=60
+
+# 消息页
+weibo = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/direct_messages\/user_list\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/weibo.js, requires-body=true, max-size=-1, timeout=60
+
+weibo = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/messageflow\/notice\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/weibo.js, requires-body=true, max-size=-1, timeout=60
+
+weibo = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/search\/(container_timeline|finder)\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/weibo.js, requires-body=true, max-size=-1, timeout=60
+
+weibo = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/searchall\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/weibo.js, requires-body=true, max-size=-1, timeout=60
+
+weibo = type=http-response, pattern=^https:\/\/bootpreload\.uve\.weibo\.com\/v1\/ad\/preload, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/weibo.js, requires-body=true, max-size=-1, timeout=60
+
+weibo = type=http-response, pattern=^https:\/\/sdkapp\.uve\.weibo\.com\/interface\/sdk\/sdkad\.php, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/weibo.js, requires-body=true, max-size=-1, timeout=60
+
+weibo = type=http-response, pattern=^https:\/\/wbapp\.uve\.weibo\.com\/(preload\/get_ad|wbapplua\/wbpullad\.lua)\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/weibo.js, requires-body=true, max-size=-1, timeout=60
+
+# 会员图标
+weibo = type=http-response, pattern=^https:\/\/new\.vip\.weibo\.cn\/aj\/appicon\/list\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/weibo.js, requires-body=true, max-size=-1, timeout=60
+
+# 跳过重定向页面以直接访问 //weibo.cn, shop.sc.weibo.com, t.cn, sinaurl.cn
+noRedirect = type=http-request, pattern=^https:\/\/weibo\.cn\/sinaurl\?(.*&)?(u|toasturl|goto)=, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/noRedirect.js, timeout=60
+
+noRedirect = type=http-request, pattern=^https:\/\/shop\.sc\.weibo\.com\/h5\/jump\/error\?(.*&)?url=, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/noRedirect.js, timeout=60
+
+noRedirect = type=http-response, pattern=^https:\/\/(sinaurl|t)\.cn\/, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/noRedirect.js, timeout=60
