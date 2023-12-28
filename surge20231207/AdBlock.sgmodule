@@ -2,7 +2,7 @@
 #!desc=去广告合集，收集自用
 
 [MITM]
-hostname = %APPEND% elemecdn.com,fuss10.elemecdn.com,www1.elecfans.com,gab.122.gov.cn,gw.alicdn.com, acs.m.taobao.com,wallet.95516.com,api.alipan.com, member.alipan.com,acs.m.taobao.com, heic.alicdn.com, guide-acs.m.taobao.com, poplayer.template.alibaba.com,pan.baidu.com, update.pan.baidu.com,flowplus.meituan.net, img.meituan.net, s3plus.meituan.net,ad.12306.cn,api.m.jd.com,tiebac.baidu.com,app.bilibili.com,api.bilibili.com,api.live.bilibili.com,grpc.biliapi.net,*.zhihu.com,*.weibo.cn,*.weibo.com,sinaurl.cn,t.cn,weibo.cn
+hostname = %APPEND% elemecdn.com,fuss10.elemecdn.com,www1.elecfans.com,gab.122.gov.cn,gw.alicdn.com, acs.m.taobao.com,wallet.95516.com,api.alipan.com, member.alipan.com,acs.m.taobao.com, heic.alicdn.com, guide-acs.m.taobao.com, poplayer.template.alibaba.com,pan.baidu.com, update.pan.baidu.com,flowplus.meituan.net, img.meituan.net, s3plus.meituan.net,ad.12306.cn,api.m.jd.com,tiebac.baidu.com,app.bilibili.com,api.bilibili.com,api.live.bilibili.com,grpc.biliapi.net,*.weibo.cn,*.weibo.com,sinaurl.cn,t.cn,weibo.cn
 
 [URL Rewrite]
 # 饿了么 //elemecdn.com, fuss10.elemecdn.com, www1.elecfans.com
@@ -30,16 +30,6 @@ hostname = %APPEND% elemecdn.com,fuss10.elemecdn.com,www1.elecfans.com,gab.122.g
 # IP请求,地理位置请求 //api.bilibili.com
 ^https:\/\/app\.bilibili\.com\/x\/resource\/ip - reject
 
-# zhihu
-^https:\/\/api\.zhihu\.com\/unlimited\/go\/my_card - reject
-# 其他,服务器推送配置
-^https:\/\/api\.zhihu\.com\/ab\/api\/v1\/products\/zhihu\/platforms\/ios\/config - reject
-^https:\/\/link\.zhihu\.com\/\?target=(https?)?(%3A|:)?(\/\/|%2F%2F)?(.*?)(&source.*)?$ http://$4 302
-^https:\/\/www\.zhihu\.com\/api\/v4\/hot_recommendation - reject
-^https:\/\/www\.zhihu\.com\/api\/v4\/mcn\/v2\/linkcards\? - reject
-^https:\/\/www\.zhihu\.com\/api\/v4/(answers|questions)\/\d+/related-readings - reject
-^https:\/\/www\.zhihu\.com\/commercial_api\/banners_v3\/mobile_banner - reject
-^https:\/\/zhuanlan\.zhihu\.com\/api\/articles\/\d+\/recommendation - reject
 
 # weibo
 ^https:\/\/sdkapp\.uve\.weibo\.com\/interface\/sdk\/(get-lbs-cell-info\.php|sdkconfig\.php) - reject
@@ -219,28 +209,6 @@ bili = type=http-response, pattern=^https:\/\/app\.bilibili\.com\/x\/v2\/splash\
 bili = type=http-response, pattern=^https:\/\/app\.bilibili\.com\/x\/v2\/account\/(mine(\/ipad)?|myinfo)\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/bilibili/bili.js, requires-body=true, max-size=-1, timeout=60
 
 bili = type=http-response, pattern=^https:\/\/app\.bilibili\.com\/x\/resource\/show\/skin\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/bilibili/bili.js, requires-body=true, max-size=-1, timeout=60
-
-# zhihu
-# 首页 悬浮图标,顶部横幅,开屏广告,关注页推荐,推荐信息流,热榜信息流,热榜直播,回答底部卡片
-zhihu = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/commercial_api\/app_float_layer, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/zhihu.js, requires-body=true, max-size=-1, timeout=60
-
-zhihu = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/feed\/render\/tab\/config\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/zhihu.js, requires-body=true, max-size=-1, timeout=60
-
-zhihu = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/(moments_v3|topstory\/hot-lists\/total|topstory\/recommend), script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/zhihu.js, requires-body=true, max-size=-1, timeout=60
-
-zhihu = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/v2\/topstory\/hot-lists\/everyone-seeing\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/zhihu.js, requires-body=true, max-size=-1, timeout=60
-
-replaceBody = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/search\/recommend_query\/v2\?, script-path=https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/scripts/replace-body.js, requires-body=true, max-size=3145728, timeout=30, argument="recommend_queries":\{.+\}->"recommend_queries":{}
-
-zhihu = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/next-(bff|data|render)\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/zhihu.js, requires-body=true, max-size=-1, timeout=60
-
-zhihu = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/questions\/\d+(\/answers|\/feeds|\?include=), script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/zhihu.js, requires-body=true, max-size=-1, timeout=60
-
-zhihu = type=http-response, pattern=^https:\/\/www\.zhihu\.com\/api\/v4\/(articles|answers)\/\d+\/recommendations?\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/zhihu.js, requires-body=true, max-size=-1, timeout=60
-
-zhihu = type=http-response, pattern=^https:\/\/appcloud2\.zhihu\.com\/v3\/config, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/zhihu.js, requires-body=true, max-size=-1, timeout=60
-
-zhihu = type=http-response, pattern=^https:\/\/m-cloud\.zhihu\.com\/api\/cloud\/config\/all\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/zhihu.js, requires-body=true, max-size=-1, timeout=60
 
 # weibo
 # 首页 签到,发布按钮,侧边栏,右上角红包,顶部tab,侧边栏提醒,超话tab悬浮,顶部直播
