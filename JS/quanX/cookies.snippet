@@ -22,8 +22,8 @@ hostname = ms.jr.jd.com, me-api.jd.com,  api.m.jd.com,tiebac.baidu.com, c.tieba.
 ; hostname = auth.aliyundrive.com
 # ^https:\/\/auth.aliyundrive.com\/v2\/account\/token url script-response-body https://raw.githubusercontent.com/lowking/Scripts/master/ali/aliYunPanCheckIn.js
 ; hostname = %APPEND% auth.alipan.com
-^https:\/\/auth.(aliyundrive|alipan).com\/v2\/account\/token url script-response-body https://raw.githubusercontent.com/lowking/Scripts/master/ali/aliYunPanCheckIn.js
-
+#^https:\/\/auth.(aliyundrive|alipan).com\/v2\/account\/token url script-response-body https://raw.githubusercontent.com/lowking/Scripts/master/ali/aliYunPanCheckIn.js
+^https:\/\/(auth|aliyundrive)\.alipan\.com\/v2\/account\/token url script-request-body https://raw.githubusercontent.com/zqzess/rule_for_quantumultX/master/js/Mine/aDriveCheckIn/aDriveCheckIn.js
  # 哔哩哔哩
 ; hostname = *.bilibili.com
 ^https?:\/\/app\.bilibili\.com\/x\/resource\/domain\? url script-request-header https://raw.githubusercontent.com/ClydeTime/Quantumult/main/Script/Task/BiliBili.js
