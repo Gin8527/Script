@@ -1,14 +1,13 @@
 /* 
-原链接：https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/QiDian/qidian.cookie.js
+起点读书 Cookie 获取脚本
 脚本功能: 获取 起点读书 广告信息
 操作步骤: 我 --> 福利中心 --> 手动观看一个广告
 
-[rewrite local]
-https\:\/\/h5\.if\.qidian\.com\/argus\/api\/v1\/video\/adv\/finishWatch url script-request-body https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/QiDian/qidian.cookie.js
+[Script]
+http-request https\:\/\/h5\.if\.qidian\.com\/argus\/api\/v1\/video\/adv\/finishWatch script-path=https://raw.githubusercontent.com/Gin8527/Script/refs/heads/main/Loon/Qidian/qidian.cookie.js, requires-body=true, timeout=60, tag=起点读书Cookie, enable=true
 
 [MITM]
 hostname = h5.if.qidian.com
-
 */
 const $ = new Env("起点读书");
 $.taskId = $.getdata("qd_taskId");
@@ -349,7 +348,7 @@ function Env(t, s) {
                 );
               },
               (t) => {
-                const { message: i, request: r } = t;
+                const { message: i, response: r } = t;
                 s(i, r, r && e.decode(r.rawBody, this.encoding));
               }
             );
@@ -406,7 +405,7 @@ function Env(t, s) {
             );
           },
           (t) => {
-            const { message: e, request: r } = t;
+            const { message: e, response: r } = t;
             s(e, r, r && i.decode(r.rawBody, this.encoding));
           }
         );
