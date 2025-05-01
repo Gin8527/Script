@@ -1,13 +1,18 @@
-#!name=qidian
-#!desc=qidian
-#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1094.png
+#!name=起点读书
+#!desc=获取起点读书任务与广告信息
+#!author=Gin8527
+#!version=1.0.0
+#!icon=https://raw.githubusercontent.com/Toperlock/Quantumult/main/icon/Doraemon/Doraemon-1094.png
 
 [Script]
-http-request https\:\/\/h5\.if\.qidian\.com\/argus\/api\/v1\/video\/adv\/finishWatch script-path=https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/QiDian/qidian.cookie.js, requires-body=true, timeout=60, tag=qidian.cookie
+# 获取广告信息
+http-request ^https:\/\/h5\.if\.qidian\.com\/argus\/api\/v1\/video\/adv\/finishWatch script-path=https://raw.githubusercontent.com/Gin8527/Script/refs/heads/main/Loon/Qidian/qidian.cookie.js, timeout=60, requires-body=true, tag=起点广告监听, enabled=true
 
-http-response https\:\/\/h5\.if\.qidian\.com\/argus\/api\/v2\/video\/adv\/mainPage script-path=https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/QiDian/qidian.taskId.js, requires-body=true, timeout=60, tag=qidian.taskId
+# 获取任务ID
+http-response ^https:\/\/h5\.if\.qidian\.com\/argus\/api\/v1\/video\/adv\/mainPage script-path=https://raw.githubusercontent.com/Gin8527/Script/refs/heads/main/Loon/Qidian/qidian.taskId.js, timeout=60, requires-body=true, tag=起点任务监听, enabled=true
 
-cron "0 13 * * *" script-path=https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/QiDian/qidian.js, timeout=120, tag=起点读书, img-url=https://raw.githubusercontent.com/chxm1023/Script_X/main/icon/qidian.png
+# 主动执行任务（cron）
+cron "0 13 * * *" script-path=https://raw.githubusercontent.com/Gin8527/Script/refs/heads/main/Loon/Qidian/qidian.js, timeout=120, tag=起点读书每日任务, img-url=https://raw.githubusercontent.com/chxm1023/Script_X/main/icon/qidian.png, enabled=true
 
 [MITM]
 hostname = h5.if.qidian.com
