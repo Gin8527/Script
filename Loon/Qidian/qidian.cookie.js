@@ -1,30 +1,16 @@
-/**
- * @loon-name 起点读书自动看广告
- * @loon-desc 自动执行起点读书广告观看任务
- * @loon-author Gin8527
- * @loon-icon https://raw.githubusercontent.com/chxm1023/Script_X/main/icon/qidian.png
- * @loon-cron 0 13 * * *
+/*
+ * 
+ * 起点读书Cookie获取
+ *
+ * [Script]
+ * http-request ^https?:\/\/h5\.if\.qidian\.com\/argus\/api\/v1\/video\/adv\/finishWatch script-path=https://raw.githubusercontent.com/Gin8527/Script/refs/heads/main/Loon/Qidian/qidian.cookie.js, requires-body=true, timeout=60, tag=起点读书Cookie, img-url=https://raw.githubusercontent.com/chxm1023/Script_X/main/icon/qidian.png, enable=true
+ *
+ * [MITM]
+ * hostname = h5.if.qidian.com
+ *
+ * 操作步骤: 我 --> 福利中心 --> 手动观看一个广告
  */
-
-/* 
-起点读书 自动看广告脚本
-脚本功能: 自动观看 起点读书 广告
-任务1: 福利中心 --> 激励视频任务: 手动看一个视频
-任务2: 福利中心 --> 额外看三次小视频奖励: 手动看一个视频
-默认执行次数: 8次
-默认间隔时间: 20s 
-
-[Script]
-cron "0 13 * * *" script-path=https://raw.githubusercontent.com/Gin8527/Script/refs/heads/main/Loon/Qidian/qidian.js, timeout=120, tag=起点读书自动看广告, img-url=https://raw.githubusercontent.com/chxm1023/Script_X/main/icon/qidian.png, enable=true
-
-BoxJS配置:
-    "qd_session"
-    "qd_session_2"
-    "qd_taskId"
-    "qd_taskId_2"
-    "qd_timeout": 间隔时间, 默认20s, 可以在BoxJs中修改
-*/
-
+ 
 const $ = new Env("起点读书");
 $.taskId = $.getdata("qd_taskId");
 $.taskId_2 = $.getdata("qd_taskId_2");
