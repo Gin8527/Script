@@ -1,14 +1,13 @@
 /* 
-原链接：https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/QiDian/qidian.taskId.js
+起点读书 TaskId 获取脚本
 脚本功能: 获取 起点读书 任务信息
 操作步骤: 我 --> 福利中心 
 
-[rewrite local]
-https\:\/\/h5\.if\.qidian\.com\/argus\/api\/v1\/video\/adv\/mainPage url script-response-body https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/QiDian/qidian.taskId.js
+[Script]
+http-response https\:\/\/h5\.if\.qidian\.com\/argus\/api\/v2\/video\/adv\/mainPage script-path=https://raw.githubusercontent.com/Gin8527/Script/refs/heads/main/Loon/Qidian/qidian.taskId.js, requires-body=true, timeout=60, tag=起点读书TaskId, enable=true
 
 [MITM]
 hostname = h5.if.qidian.com
-
 */
 const $ = new Env("起点读书");
 
@@ -255,7 +254,8 @@ function Env(t, s) {
     }
     get(t, s = () => {}) {
       if (
-        (t.headers && (delete t.headers["Content-Type"], delete t.headers["Content-Length"]),
+        (t.headers &&
+          (delete t.headers["Content-Type"], delete t.headers["Content-Length"]),
         this.isSurge() || this.isShadowrocket() || this.isLoon() || this.isStash())
       )
         this.isSurge() &&
