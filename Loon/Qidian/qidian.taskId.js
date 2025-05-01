@@ -1,22 +1,16 @@
-/**
- * @loon-name 起点读书TaskId
- * @loon-desc 获取起点读书任务信息
- * @loon-author Gin8527
- * @loon-icon https://raw.githubusercontent.com/chxm1023/Script_X/main/icon/qidian.png
+/*
+ * 
+ * 起点读书TaskId获取
+ *
+ * [Script]
+ * http-response ^https?:\/\/h5\.if\.qidian\.com\/argus\/api\/v(1|2)\/video\/adv\/mainPage script-path=https://raw.githubusercontent.com/Gin8527/Script/refs/heads/main/Loon/Qidian/qidian.taskId.js, requires-body=true, timeout=60, tag=起点读书TaskId, img-url=https://raw.githubusercontent.com/chxm1023/Script_X/main/icon/qidian.png, enable=true
+ *
+ * [MITM]
+ * hostname = h5.if.qidian.com
+ *
+ * 操作步骤: 我 --> 福利中心
  */
-
-/* 
-起点读书 TaskId 获取脚本
-脚本功能: 获取 起点读书 任务信息
-操作步骤: 我 --> 福利中心 
-
-[Script]
-http-response ^https?:\/\/h5\.if\.qidian\.com\/argus\/api\/v2\/video\/adv\/mainPage script-path=https://raw.githubusercontent.com/Gin8527/Script/refs/heads/main/Loon/Qidian/qidian.taskId.js, requires-body=true, timeout=60, tag=起点读书TaskId, img-url=https://raw.githubusercontent.com/chxm1023/Script_X/main/icon/qidian.png, enable=true
-
-[MITM]
-hostname = h5.if.qidian.com
-*/
-
+ 
 const $ = new Env("起点读书");
 
 var obj = JSON.parse($response.body);
