@@ -1,3 +1,11 @@
+/**
+ * @loon-name 起点读书自动看广告
+ * @loon-desc 自动执行起点读书广告观看任务
+ * @loon-author Gin8527
+ * @loon-icon https://raw.githubusercontent.com/chxm1023/Script_X/main/icon/qidian.png
+ * @loon-cron 0 13 * * *
+ */
+
 /* 
 起点读书 自动看广告脚本
 脚本功能: 自动观看 起点读书 广告
@@ -7,7 +15,7 @@
 默认间隔时间: 20s 
 
 [Script]
-cron "0 13 * * *" script-path=https://raw.githubusercontent.com/Gin8527/Script/refs/heads/main/Loon/Qidian/qidian.js, timeout=120, tag=起点读书自动看广告, img-url=https://raw.githubusercontent.com/chxm1023/Script_X/main/icon/qidian.png, enable=true, cronexp="0 13 * * *"
+cron "0 13 * * *" script-path=https://raw.githubusercontent.com/Gin8527/Script/refs/heads/main/Loon/Qidian/qidian.js, timeout=120, tag=起点读书自动看广告, img-url=https://raw.githubusercontent.com/chxm1023/Script_X/main/icon/qidian.png, enable=true
 
 BoxJS配置:
     "qd_session"
@@ -16,6 +24,7 @@ BoxJS配置:
     "qd_taskId_2"
     "qd_timeout": 间隔时间, 默认20s, 可以在BoxJs中修改
 */
+
 const $ = new Env("起点读书");
 
 $.taskId = $.getdata("qd_taskId");
