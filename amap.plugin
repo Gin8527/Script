@@ -10,10 +10,10 @@ enable_task = switch, true, tag=启用签到任务, desc=控制定时签到脚�
 task_cron_time = input, "1 0 * * *", tag=签到任务时间 (Cron), desc=设置签到脚本的执行时间 (标准Cron格式)
 
 [Rewrite]
-^https?:\/\/(m5(|-zb)|dache)\.amap\.com\/(ws\/yuece\/(act|openapi\/activity\/current)\/query|common\/(alipaymini|wxmini)\?_ENCRYPT=) url script-response-body https://raw.githubusercontent.com/wf021325/qx/master/task/ampDache.js, enable={enable_rewrite}
+^https:\/\/m5(-zb)?\.amap\.com\/ws\/yuece\/(act|openapi)\/(activity\/current\/)?query url script-response-body https://raw.githubusercontent.com/wf021325/qx/master/task/ampDache.js, enable={enable_rewrite}
 
 [Script]
 cron {task_cron_time} script-path=https://raw.githubusercontent.com/wf021325/qx/master/task/ampDache.js, timeout=200, tag=高德地图打车签到, enable={enable_task}
 
 [MITM]
-hostname = *.amap.com
+hostname = *.amap.com 
