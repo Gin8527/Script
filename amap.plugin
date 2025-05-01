@@ -5,14 +5,12 @@
 #!icon=https://raw.githubusercontent.com/Orz-3/mini/master/Alpha/amap.png
 
 [Argument]
-enable_rewrite = switch, true, tag=启用Cookie获取, desc=控制获取Cookie的重写规则是否启用 (获取成功后可关闭)
+enable_cookie_script = switch, true, tag=启用Cookie获取脚本, desc=控制获取Cookie的响应脚本是否启用 (获取成功后可关闭)
 enable_task = switch, true, tag=启用签到任务, desc=控制定时签到脚本是否启用
 task_cron_time = input, "1 0 * * *", tag=签到任务时间 (Cron), desc=设置签到脚本的执行时间 (标准Cron格式)
 
-[Rewrite]
-^https:\/\/m5(-zb)?\.amap\.com\/ws\/yuece\/(act|openapi)\/(activity\/current\/)?query url script-response-body https://raw.githubusercontent.com/wf021325/qx/master/task/ampDache.js, enable={enable_rewrite}
-
 [Script]
+http-response ^https:\/\/m5(-zb)?\.amap\.com\/ws\/yuece\/(act|openapi)\/(activity\/current\/)?query script-path=https://raw.githubusercontent.com/wf021325/qx/master/task/ampDache.js, requires-body=true, timeout=60, tag=高德获取Cookie, enable={enable_cookie_script}
 cron {task_cron_time} script-path=https://raw.githubusercontent.com/wf021325/qx/master/task/ampDache.js, timeout=200, tag=高德地图打车签到, enable={enable_task}
 
 [MITM]
