@@ -2,12 +2,17 @@
 #!desc=qidian
 #!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1094.png
 
+[Argument]
+enable_cookie_js = switch, true, tag=启用获取Cookie脚本, desc=控制 qidian.cookie.js 是否启用
+enable_task_js = switch, true, tag=启用获取任务ID脚本, desc=控制 qidian.taskId.js 是否启用
+task_cron_time = input, "15 21 * * *", tag=任务执行时间 (Cron), desc=设置 qidian.js 的执行时间 (标准Cron格式)
+
 [Script]
-http-request https\:\/\/h5\.if\.qidian\.com\/argus\/api\/v1\/video\/adv\/finishWatch script-path=https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/QiDian/qidian.cookie.js, requires-body=true, timeout=60, tag=qidian.cookie
+http-request https\:\/\/h5\.if\.qidian\.com\/argus\/api\/v1\/video\/adv\/finishWatch script-path=https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/QiDian/qidian.cookie.js, requires-body=true, timeout=60, tag=qidian.cookie, enable={enable_cookie_js}
 
-http-response https\:\/\/h5\.if\.qidian\.com\/argus\/api\/v2\/video\/adv\/mainPage script-path=https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/QiDian/qidian.taskId.js, requires-body=true, timeout=60, tag=qidian.taskId
+http-response https\:\/\/h5\.if\.qidian\.com\/argus\/api\/v2\/video\/adv\/mainPage script-path=https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/QiDian/qidian.taskId.js, requires-body=true, timeout=60, tag=qidian.taskId, enable={enable_task_js}
 
-cron "15 21 * * *" script-path=https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/QiDian/qidian.js, timeout=120, tag=起点读书, img-url=https://raw.githubusercontent.com/chxm1023/Script_X/main/icon/qidian.png
+cron {task_cron_time} script-path=https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/QiDian/qidian.js, timeout=120, tag=起点读书, img-url=https://raw.githubusercontent.com/chxm1023/Script_X/main/icon/qidian.png
 
 [MITM]
-hostname = h5.if.qidian.com
+hostname = h5.if.qidian.com 
