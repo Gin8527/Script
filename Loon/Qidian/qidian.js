@@ -1,29 +1,20 @@
 /* 
-原链接：https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/QiDian/qidian.js
-@mcdasheng688 1.16更新
-🥳脚本功能: 自动观看 起点读书 广告
+起点读书 自动看广告脚本
+脚本功能: 自动观看 起点读书 广告
 任务1: 福利中心 --> 激励视频任务: 手动看一个视频
 任务2: 福利中心 --> 额外看三次小视频奖励: 手动看一个视频
 默认执行次数: 8次
 默认间隔时间: 20s 
-🎯重写脚本:
-[rewrite local]
-https\:\/\/h5\.if\.qidian\.com\/argus\/api\/v1\/video\/adv\/finishWatch url script-request-body https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/QiDian/qidian.cookie.js
-https\:\/\/h5\.if\.qidian\.com\/argus\/api\/v2\/video\/adv\/mainPage url script-response-body https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/QiDian/qidian.taskId.js
-[MITM]
-hostname = h5.if.qidian.com
-⏰定时任务:
-[task local]
-30 10 * * * https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/QiDian/qidian.js, img-url=https://raw.githubusercontent.com/chxm1023/Script_X/main/icon/qidian.png, tag=起点读书, enabled=true
-📦BoxJs地址:
-https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/mcdasheng.boxjs.json
-@params: 
+
+[Script]
+cron "0 13 * * *" script-path=https://raw.githubusercontent.com/Gin8527/Script/refs/heads/main/Loon/Qidian/qidian.js, timeout=120, tag=起点读书自动看广告, img-url=https://raw.githubusercontent.com/chxm1023/Script_X/main/icon/qidian.png, enable=true, cronexp="0 13 * * *"
+
+BoxJS配置:
     "qd_session"
     "qd_session_2"
     "qd_taskId"
     "qd_taskId_2"
-    "qd_timeout": 间隔时间, 默认20s, 可以在BoxJs中修改为0s
-    
+    "qd_timeout": 间隔时间, 默认20s, 可以在BoxJs中修改
 */
 const $ = new Env("起点读书");
 
