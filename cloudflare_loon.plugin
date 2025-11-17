@@ -1,0 +1,18 @@
+#!name= Cloudflare 优选 IP
+#!desc= 通过远程 JS 定时抓取并通知最优 IP
+#!author= Gin8527
+#!loon_version= 3.3.6(911)
+#!tag= 工具,网络
+
+[Argument]
+cronExp = input,"0 8 * * *",tag=定时表达式,desc=分 时 日 月 周
+notify  = switch,true,tag=成功时推送通知,desc=脚本内通过 $argument.notify 读取
+dataURL = input,"https://api.uouin.com/cloudflare.html",tag=数据源URL,desc=HTML页(表格解析)
+openUrl = input,"",tag=通知跳转链接,desc=可留空
+
+[Script]
+# 定时执行
+cron {cronExp} script-path=https://raw.githubusercontent.com/Gin8527/Script/refs/heads/main/cloudflare_loon.js, tag=CF最优IP(定时), timeout=60, enable=true, argument=[{notify},{dataURL},{openUrl}]
+
+# 手动执行（插件页按钮）
+generic script-path=https://raw.githubusercontent.com/Gin8527/Script/refs/heads/main/cloudflare_loon.js, tag=立即查询CF最优IP, img-url=network.system, timeout=60, enable=true, argument=[{notify},{dataURL},{openUrl}]
