@@ -195,39 +195,77 @@ const key = md5(md5("DdlTxtN0sUOu") + "70cloudflareapikey" + time);
 const url = `https://api.uouin.com/api/info?key=${key}&timestamp=${time}`;
 
 console.log("开始查询 Cloudflare 最优 IP...");
+console.log("请求 URL: " + url);
 
 // 发起请求
 $httpClient.get(
   {
     url: url,
-    timeout: 10000,
+    timeout: 15000,
     headers: {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-      "Accept": "*/*",
+      "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1",
+      "Accept": "application/json, text/plain, */*",
+      "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
       "Referer": "https://api.uouin.com/cloudflare.html",
+      "Origin": "https://api.uouin.com",
       "X-Requested-With": "XMLHttpRequest"
     }
   },
   function(error, response, data) {
     if (error) {
-      console.log("请求失败: " + error);
+      console.log("❌ 请求失败: " + error);
       $notification.post(
         "CF 最优 IP 查询",
-        "❌ 请求失败",
-        error
+        "❌ 网络请求失败",
+        "错误信息: " + error
+      );
+      $done();
+      return;
+    }
+    
+    // 打印响应状态
+    console.log("响应状态: " + (response ? response.status : "无响应"));
+    
+    // 打印响应数据的前100个字符用于调试
+    if (data) {
+      console.log("响应数据前100字符: " + data.substring(0, 100));
+    } else {
+      console.log("响应数据为空");
+    }
+    
+    // 检查响应状态
+    if (response && response.status !== 200) {
+      console.log("❌ HTTP状态码异常: " + response.status);
+      $notification.post(
+        "CF 最优 IP 查询",
+        "❌ 服务器响应异常",
+        "HTTP状态码: " + response.status
       );
       $done();
       return;
     }
     
     try {
-      const result = JSON.parse(data);
+      // 检查返回的数据是否为 HTML
+      if (data && data.trim().startsWith('<')) {
+        throw new Error("API返回了HTML页面，可能是接口限制或错误");
+      }
       
+      // 尝试解析 JSON
+      const result = JSON.parse(data);
+      console.log("JSON 解析成功");
+      
+      // 检查数据结构
       if (!result.data) {
-        throw new Error("API 返回数据格式错误");
+        throw new Error("API 返回数据格式错误: 缺少 data 字段");
       }
       
       const ipData = result.data;
+      
+      // 检查各运营商数据是否存在
+      if (!ipData.ctcc || !ipData.cmcc || !ipData.cucc || !ipData.cernet) {
+        throw new Error("API 返回数据不完整，缺少运营商数据");
+      }
       
       // 获取各运营商最优 IP
       const ctcc = getBestIPByScore(ipData.ctcc?.info);
@@ -261,18 +299,25 @@ $httpClient.get(
       $persistentStore.write(timeStr, "cf_best_ip_update_time");
       
       // 发送通知
-      $notification.post("CF 最优 IP", "", message);
+      $notification.post("CF 最优 IP", "✅ 查询成功", message);
       
-      console.log("查询成功:");
+      console.log("✅ 查询成功:");
       console.log(message);
       console.log("更新时间: " + timeStr);
       
     } catch (e) {
-      console.log("解析失败: " + e.message);
+      console.log("❌ 解析失败: " + e.message);
+      console.log("完整错误信息: " + e.stack);
+      
+      // 打印完整响应数据用于调试
+      if (data) {
+        console.log("完整响应数据: " + data);
+      }
+      
       $notification.post(
         "CF 最优 IP 查询",
-        "❌ 解析失败",
-        e.message || "未知错误"
+        "❌ 数据解析失败",
+        e.message + "\n\n请检查 API 接口是否正常"
       );
     }
     
