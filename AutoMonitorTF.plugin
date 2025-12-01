@@ -1,33 +1,42 @@
-#!name = TestFlight 监控
-#!desc = 监控 TestFlight 名额。安装后点击插件的“配置”或齿轮图标，可设置 AppID 和 运行频率。
+#!name = TestFlight 监控 (终极版)
+#!desc = 监控 TF 名额。保存后，请务必在 Loon 的「脚本」页面点击「TF监控(点击测试)」来验证。
 #!author = fmz200 (Modified by Gemini)
 #!icon = https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/TestFlight_01.png
-#!tag = TestFlight,监控
+#!tag = 监控
 
 [Argument]
-# 这里的 ids 对应下面 Script 中的 {ids}
-ids = input,"899247664",tag=App ID 列表,desc=输入 App ID，多个 ID 用逗号分隔 (例如: 899247664,12345678)
+# 这里的 ids 对应下面的 {ids}
+ids = input,"899247664",tag=App ID,desc=输入ID，多个用逗号分隔 (如: 899247664,12345678)
 
-# 这里的 cron_time 对应下面 Script 中的 {cron_time}
-cron_time = input,"0 */10 * * * *",tag=运行频率 (Cron),desc=设置检查时间，默认每 10 分钟 (格式: 秒 分 时 日 月 周)
+# 这里的 cron_time 对应下面的 {cron_time}
+cron_time = input,"0 */10 * * * *",tag=监控频率,desc=Cron表达式 (默认每10分钟)
 
 [Script]
-# 核心改动：使用 {cron_time} 引用上方定义的参数，实现时间可配置
-# 使用 argument={ids} 将上方定义的 App ID 传给脚本
-cron {cron_time} script-content=, tag=TF监控, timeout=60, argument={ids}
+# 1. 手动测试入口：保存后去 Loon -> 脚本 -> 找到 "TF监控(点击测试)" 点击运行
+generic script-content=, tag=TF监控(点击测试), timeout=10, argument={ids}, img-url=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/TestFlight_01.png
 
-// ================= 脚本内容开始 =================
+# 2. 定时任务入口：根据设置的时间自动后台运行
+cron {cron_time} script-content=, tag=TF监控(后台), timeout=60, argument={ids}
+
+// ================= 脚本逻辑 =================
+// 脚本将同时作为 script-content 运行
 /**
- * TestFlight 监控插件
+ * TestFlight Monitor
  */
+
+// 立即打印日志，证明脚本已加载
+console.log("🔔 TestFlight 监控脚本已启动...");
+
 const $ = new Env('TF监控');
 
-// 获取插件传入的 argument 参数
-// 根据 Loon 文档，argument={ids} 会把用户输入的值作为字符串传进来
+// 获取参数：优先取 argument，取不到则为空
 let TF_APP_ID = "";
-
-if (typeof $argument !== "undefined") {
+if (typeof $argument !== "undefined" && $argument) {
     TF_APP_ID = $argument;
+    console.log(`ℹ️ 读取到可视化参数: ${TF_APP_ID}`);
+} else {
+    console.log("⚠️ 未读取到参数，尝试读取本地配置...");
+    TF_APP_ID = $.getdata("fmz200_TF_APP_ID");
 }
 
 const userAgents = [
@@ -36,25 +45,29 @@ const userAgents = [
 ];
 
 !(async () => {
-    // 1. 检查参数
+    // 1. 验证 ID 是否存在
     if (!TF_APP_ID) {
-        console.log("⚠️ 未检测到 App ID");
-        // 如果是手动运行或第一次运行，提示用户
-        $.msg($.name, "⚠️ 配置缺失", "请点击插件的「配置」按钮填写 TestFlight ID");
+        console.log("❌ 错误: 未检测到 ID。请在插件配置中填写 App ID。");
+        $.msg("TF监控配置错误", "未填 App ID", "请点击插件配置按钮进行填写");
         $.done();
         return;
     }
 
-    // 2. 处理 ID 列表 (支持换行或逗号)
+    // 2. 格式化 ID
     const appIds = TF_APP_ID.split(/\s*[\n,]\s*/).filter(Boolean);
-    console.log(`🔍 开始监控以下 ID: ${appIds.join(", ")}`);
+    if (appIds.length === 0) {
+        console.log("❌ 错误: ID 列表解析为空");
+        $.done();
+        return;
+    }
+    
+    console.log(`🔍 准备监控 ${appIds.length} 个 App...`);
 
-    // 3. 循环执行
+    // 3. 循环执行检查
     for (const item of appIds) {
+        // 解析 ID 和 备注 (格式: ID#备注)
         let appId = item;
         let appName = "";
-        
-        // 支持 "ID#备注" 格式
         if (item.includes("#")) {
             const parts = item.split("#");
             appId = parts[0].trim();
@@ -63,11 +76,11 @@ const userAgents = [
 
         await checkTF(appId, appName, item);
         
-        // 随机延迟防止封禁
-        await $.wait(Math.floor(Math.random() * 2000) + 1000);
+        // 简单延迟
+        await $.wait(1000);
     }
 
-    console.log("✅ 所有监控任务完成");
+    console.log("✅ 所有检查结束");
     $.done();
 })();
 
@@ -81,42 +94,44 @@ async function checkTF(appId, appName, originalStr) {
     return new Promise(resolve => {
         $.get({url, headers}, (err, resp, data) => {
             if (err) {
-                console.log(`❌ [${originalStr}] 网络错误: ${err}`);
+                console.log(`❌ [${originalStr}] 请求失败: ${err}`);
                 resolve();
                 return;
             }
-            if (resp.status === 404) {
-                console.log(`❌ [${originalStr}] 链接无效 (404)`);
+            if (!resp || resp.status !== 200) {
+                const code = resp ? resp.status : "未知";
+                console.log(`❌ [${originalStr}] 响应异常 (Code: ${code})`);
+                // 如果是 404，通常是 ID 填错了
+                if (code === 404) console.log("👉 请检查 ID 是否正确");
                 resolve();
                 return;
             }
 
-            // 状态判定逻辑
+            // 检查逻辑
             const isFull = /版本的测试员已满|This beta is full/i.test(data);
             const isClosed = /不接受任何新测试员|not accepting any new testers/i.test(data);
             const isOpen = /要加入 Beta 版|To join the/i.test(data);
 
             if (isOpen) {
-                console.log(`🟢 [${originalStr}] ===> 名额已开放！`);
-                const title = appName ? `[${appName}] TF 有名额了` : `TestFlight 可加入`;
-                const body = `ID: ${appId}\n点击此通知直接跳转加入`;
+                console.log(`🟢 [${originalStr}] ===> 可加入！`);
+                const title = appName ? `[${appName}] 可加入` : `TestFlight 可加入`;
+                const body = `ID: ${appId} (点击通知跳转)`;
                 
-                // 发送系统通知
+                // 发送通知
                 $.msg(title, body, url, {
-                    "open-url": url,
-                    "media-url": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/TestFlight_01.png"
+                    "open-url": url
                 });
             } else if (isFull) {
                 console.log(`🔴 [${originalStr}] 已满`);
             } else if (isClosed) {
                 console.log(`⛔️ [${originalStr}] 停止招募`);
             } else {
-                console.log(`⚪️ [${originalStr}] 未知状态 (Code: ${resp.status})`);
+                console.log(`⚪️ [${originalStr}] 未知状态`);
             }
             resolve();
         });
     });
 }
 
-// 极简版 Env 工具类 (适配 Loon)
+// 适配 Loon 的简易环境类
 function Env(t){return new class{constructor(t){this.name=t}getdata(t){return $persistentStore.read(t)}msg(t,e,s,i){$notification.post(t,e,s,i)}get(t,e){$httpClient.get(t,e)}wait(t){return new Promise(e=>setTimeout(e,t))}done(){$done()}}(t)}
