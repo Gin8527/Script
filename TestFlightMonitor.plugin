@@ -1,0 +1,17 @@
+#!name=TestFlight 空位监控
+#!desc=定时检测 TestFlight 加入状态；支持多 App ID（逗号/换行分隔、支持“ID#备注名”）；出现空位时推送通知
+#!author=fmz200, codex
+#!homepage=https://testflight.apple.com
+#!icon=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/TestFlight_01.png
+#!system=iOS,iPadOS,macOS
+#!loon_version=3.2.1(729)
+#!tag=TestFlight,通知,定时任务
+
+[Argument]
+tf_app_ids = input,"abcd1234#AppA\nefgh5678#AppB",tag=AppID 列表,desc=多个以逗号或换行分隔；支持“ID#备注名”
+cron_expr = input,"*/5 * * * *",tag=定时表达式,desc=5段(分 时 日 月 周)或6段(秒 分 时 日 月 周)
+enable = switch,true,tag=启用脚本,desc=关闭后不再运行
+
+[script]
+# 将 script-path 修改为你的脚本真实路径（本地/iCloud 或远程URL）
+cron {cron_expr} script-path=https://raw.githubusercontent.com/Gin8527/Script/refs/heads/main/AutoMonitorTF.js,tag=TestFlight 空位监控,timeout=120,argument=[{tf_app_ids}],enable={enable},img-url=testtube.2.system
