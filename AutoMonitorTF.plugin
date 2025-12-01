@@ -1,155 +1,122 @@
 #!name = TestFlight 监控
-#!desc = 监控 TestFlight 是否有名额，支持可视化配置 AppID。
-#!openUrl = https://github.com/fmz200/wool_scripts
+#!desc = 监控 TestFlight 名额。安装后点击插件的“配置”或齿轮图标，可设置 AppID 和 运行频率。
 #!author = fmz200 (Modified by Gemini)
 #!icon = https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/TestFlight_01.png
+#!tag = TestFlight,监控
 
 [Argument]
-TF_IDS = {
-  type = "text",
-  title = "TestFlight ID 列表",
-  desc = "请输入 App ID，多个 ID 用逗号或换行分隔。例如：899247664, 12345678",
-  placeholder = "899247664, 12345678",
-  auto-close = false
-}
+# 这里的 ids 对应下面 Script 中的 {ids}
+ids = input,"899247664",tag=App ID 列表,desc=输入 App ID，多个 ID 用逗号分隔 (例如: 899247664,12345678)
+
+# 这里的 cron_time 对应下面 Script 中的 {cron_time}
+cron_time = input,"0 */10 * * * *",tag=运行频率 (Cron),desc=设置检查时间，默认每 10 分钟 (格式: 秒 分 时 日 月 周)
 
 [Script]
-# 定时任务：默认每10分钟执行一次
-# 格式：秒 分 时 日 月 周
-cron "0 */10 * * * *" script-content=
+# 核心改动：使用 {cron_time} 引用上方定义的参数，实现时间可配置
+# 使用 argument={ids} 将上方定义的 App ID 传给脚本
+cron {cron_time} script-content=, tag=TF监控, timeout=60, argument={ids}
 
-// ================= 脚本逻辑开始 =================
+// ================= 脚本内容开始 =================
 /**
- * TestFlight 监控插件 (Loon 适配版)
- * 1. 支持通过插件配置界面直接输入 ID
- * 2. 移除系统限制，修复不兼容问题
+ * TestFlight 监控插件
  */
+const $ = new Env('TF监控');
 
-const $ = new Env('监控TestFlight是否可加入');
-const isNode = $.isNode();
-const notify = isNode ? require('./sendNotify') : '';
-$.nodeNotifyMsg = [];
-
-// ===========================================
-// 核心逻辑：读取 Loon 可视化参数
-// ===========================================
+// 获取插件传入的 argument 参数
+// 根据 Loon 文档，argument={ids} 会把用户输入的值作为字符串传进来
 let TF_APP_ID = "";
 
-if (typeof $argument !== "undefined" && $argument) {
-    // 优先读取插件配置的参数
+if (typeof $argument !== "undefined") {
     TF_APP_ID = $argument;
-} else {
-    // 只有在 Node 环境或持久化存储中才读取旧配置
-    TF_APP_ID = isNode ? process.env["fmz200_TF_APP_ID"] : $.getdata("fmz200_TF_APP_ID");
 }
 
 const userAgents = [
-  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
-  "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
   "Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1"
 ];
 
 !(async () => {
-  if (!TF_APP_ID) {
-    console.log("⚠️ 警告：未检测到 App ID");
-    console.log("ℹ️ 请在 Loon 插件配置 -> [TestFlight ID 列表] 中填入 ID");
-    await sendMsg("TestFlight 监控配置错误", "请在插件设置中填入 App ID");
-    $.done();
-    return;
-  }
-  
-  // 处理分隔符：支持换行、逗号
-  const appIds = TF_APP_ID.split(/\s*[\n,]\s*/).filter(Boolean);
-  
-  console.log(`🔍 开始监控以下 App ID: ${appIds.join(", ")}`);
-  
-  for (const appIdInfo of appIds) {
-    let appId = appIdInfo;
-    let appName = null;
-    
-    // 支持 "ID#备注" 格式
-    if (appIdInfo.includes("#")) {
-      const parts = appIdInfo.split("#");
-      appId = parts[0].trim();
-      appName = parts[1].trim();
+    // 1. 检查参数
+    if (!TF_APP_ID) {
+        console.log("⚠️ 未检测到 App ID");
+        // 如果是手动运行或第一次运行，提示用户
+        $.msg($.name, "⚠️ 配置缺失", "请点击插件的「配置」按钮填写 TestFlight ID");
+        $.done();
+        return;
     }
-    
-    await autoPost(appId, appName, appIdInfo);
-    
-    // 简单的随机延迟，避免并发过高
-    await $.wait(Math.floor(Math.random() * 2000) + 1000); 
-  }
 
-  if (isNode && $.nodeNotifyMsg.length > 0) {
-      await sendMsg($.nodeNotifyMsg.join("\n"), "");
-  }
-  
-  console.log("✅ 所有任务执行完毕");
-  $.done();
+    // 2. 处理 ID 列表 (支持换行或逗号)
+    const appIds = TF_APP_ID.split(/\s*[\n,]\s*/).filter(Boolean);
+    console.log(`🔍 开始监控以下 ID: ${appIds.join(", ")}`);
+
+    // 3. 循环执行
+    for (const item of appIds) {
+        let appId = item;
+        let appName = "";
+        
+        // 支持 "ID#备注" 格式
+        if (item.includes("#")) {
+            const parts = item.split("#");
+            appId = parts[0].trim();
+            appName = parts[1].trim();
+        }
+
+        await checkTF(appId, appName, item);
+        
+        // 随机延迟防止封禁
+        await $.wait(Math.floor(Math.random() * 2000) + 1000);
+    }
+
+    console.log("✅ 所有监控任务完成");
+    $.done();
 })();
 
-async function autoPost(appId, appName, appIdInfo) {
-  const url = `https://testflight.apple.com/join/${appId}`;
-  const headers = {
-    'User-Agent': getRandomUA(),
-    'Accept-Language': 'zh-CN,zh-Hans;q=0.9'
-  };
+async function checkTF(appId, appName, originalStr) {
+    const url = `https://testflight.apple.com/join/${appId}`;
+    const headers = { 
+        'User-Agent': userAgents[Math.floor(Math.random() * userAgents.length)],
+        'Accept-Language': 'zh-CN,zh-Hans;q=0.9'
+    };
 
-  return new Promise((resolve) => {
-    $.get({url: url, headers: headers}, async (error, resp, data) => {
-      if (error) {
-        console.log(`❌ [${appIdInfo}] 请求失败: ${error}`);
-        resolve();
-        return;
-      }
-      
-      if (resp.status === 404) {
-        console.log(`❌ [${appIdInfo}] 链接无效 (404)`);
-        resolve();
-        return;
-      }
+    return new Promise(resolve => {
+        $.get({url, headers}, (err, resp, data) => {
+            if (err) {
+                console.log(`❌ [${originalStr}] 网络错误: ${err}`);
+                resolve();
+                return;
+            }
+            if (resp.status === 404) {
+                console.log(`❌ [${originalStr}] 链接无效 (404)`);
+                resolve();
+                return;
+            }
 
-      // 状态判断逻辑
-      const isFull = /版本的测试员已满|This beta is full/i.test(data);
-      const isClosed = /版本目前不接受任何新测试员|This beta isn't accepting any new testers/i.test(data);
-      const isOpen = /要加入 Beta 版|To join the/i.test(data);
+            // 状态判定逻辑
+            const isFull = /版本的测试员已满|This beta is full/i.test(data);
+            const isClosed = /不接受任何新测试员|not accepting any new testers/i.test(data);
+            const isOpen = /要加入 Beta 版|To join the/i.test(data);
 
-      if (isFull) {
-        console.log(`🔴 [${appIdInfo}] 已满员`);
-      } else if (isClosed) {
-        console.log(`⛔️ [${appIdInfo}] 停止招募`);
-      } else if (isOpen) {
-        console.log(`🟢 [${appIdInfo}] ===> 名额已开放！`);
-        const title = appName ? `[${appName}] 可加入 TestFlight` : `[${appId}] 可加入 TestFlight`;
-        const body = `点击通知跳转加入。\nID: ${appId}`;
-        
-        // 发送 Loon 通知
-        await sendMsg(title, {
-            "open-url": url,
-            "media-url": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/TestFlight_01.png"
-        }, body); // body 传给 msg 函数
-        
-      } else {
-        console.log(`⚪️ [${appIdInfo}] 未知状态 (HTTP ${resp.status})`);
-      }
-      resolve();
+            if (isOpen) {
+                console.log(`🟢 [${originalStr}] ===> 名额已开放！`);
+                const title = appName ? `[${appName}] TF 有名额了` : `TestFlight 可加入`;
+                const body = `ID: ${appId}\n点击此通知直接跳转加入`;
+                
+                // 发送系统通知
+                $.msg(title, body, url, {
+                    "open-url": url,
+                    "media-url": "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/TestFlight_01.png"
+                });
+            } else if (isFull) {
+                console.log(`🔴 [${originalStr}] 已满`);
+            } else if (isClosed) {
+                console.log(`⛔️ [${originalStr}] 停止招募`);
+            } else {
+                console.log(`⚪️ [${originalStr}] 未知状态 (Code: ${resp.status})`);
+            }
+            resolve();
+        });
     });
-  });
 }
 
-function getRandomUA() {
-  return userAgents[Math.floor(Math.random() * userAgents.length)];
-}
-
-// 适配 Loon 的简易通知发送函数
-async function sendMsg(title, opts, body = "") {
-    if ($.isNode()) {
-        await notify.sendNotify($.name, title + "\n" + body);
-    } else {
-        // Loon 通知的参数顺序: title, subtitle, content, options
-        $.msg($.name, title, body, opts);
-    }
-}
-
-// 基础环境类 (精简版)
-function Env(t,e){class s{constructor(t){this.env=t}send(t,e="GET"){t="string"==typeof t?{url:t}:t;let s=this.get;"POST"===e&&(s=this.post);const i=new Promise(((e,i)=>{s.call(this,t,((t,s,o)=>{t?i(t):e(s)}))}));return t.timeout?((t,e=1e3)=>Promise.race([t,new Promise(((t,s)=>{setTimeout((()=>{s(new Error("请求超时"))}),e)}))]))(i,t.timeout):i}get(t){return this.send.call(this.env,t)}post(t){return this.send.call(this.env,t,"POST")}}return new class{constructor(t,e){this.name=t,this.http=new s(this),this.data=null,this.dataFile="box.dat",this.logs=[],this.isMute=!1,this.isNeedRewrite=!1,this.logSeparator="\n",this.encoding="utf-8",this.startTime=(new Date).getTime(),Object.
+// 极简版 Env 工具类 (适配 Loon)
+function Env(t){return new class{constructor(t){this.name=t}getdata(t){return $persistentStore.read(t)}msg(t,e,s,i){$notification.post(t,e,s,i)}get(t,e){$httpClient.get(t,e)}wait(t){return new Promise(e=>setTimeout(e,t))}done(){$done()}}(t)}
