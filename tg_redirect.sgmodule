@@ -1,11 +1,11 @@
 #!name=Telegram Redirect
-#!desc=将 t.me 链接重定向至第三方客户端。
+#!desc=Telegram 链接跳转第三方客户端
 #!system=ios,mac
 
 [MITM]
 hostname = %APPEND% t.me
 
 [Script]
-# 请将下方的 script-path 替换为你上传到 GitHub 的 Raw 链接
-# argument 支持: Telegram, Swiftgram, Turrit, iMe, Nicegram, Lingogram
-Telegram Redirect = type=http-request, pattern=^https?://t\.me/.+, script-path=https://raw.githubusercontent.com/Gin8527/Script/refs/heads/main/tg_redirect.js, argument=Turrit, script-update-interval=0
+# 下一行代码中，请将 script-path= 后的链接替换为你第一步获取的 Raw 链接
+# argument= 后面可以修改为你想要的客户端，例如: Nicegram, iMe, Telegram
+Telegram_Redirect = type=http-request, pattern=^https?:\/\/t\.me\/.+, script-path=https://raw.githubusercontent.com/Gin8527/Script/refs/heads/main/tg_redirect.js, argument=Turrit
